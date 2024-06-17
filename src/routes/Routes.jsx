@@ -20,8 +20,10 @@ export const router = createBrowserRouter([
         path: '/room/:id',
         element: <RoomDetails />,
       },
+      { path: '/login', element: <Login /> },
+      { path: '/signup', element: <SignUp /> },
     ],
   },
-  { path: '/login', element: <Login /> },
-  { path: '/signup', element: <SignUp /> },
+  // { path: '/login', element: <Login /> },
+  // { path: '/signup', element: <SignUp /> },
 ])

@@ -9,7 +9,7 @@ const Home = () => {
         <title>StayVista | Vacation Homes & Condo Rentals</title>
       </Helmet>
       {/* Categories section  */}
-      <Categories />
+      {/* <Categories /> */}
       {/* Rooms section */}
       <Rooms />
     </div>
