@@ -1,13 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/images/logo.png"
 
 // import 'react-tooltip/dist/react-tooltip.css'
 
-import { AuthContext } from "../../../providers/AuthProvider";
+
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { user, logOut } = useAuth()
+
   const [theme, setTheme] = useState("light");
   // const { loading } = useContext(AuthContex);
 

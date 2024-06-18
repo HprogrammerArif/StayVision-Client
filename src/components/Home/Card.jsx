@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 const Card = ({ room }) => {
   return (
-    <Link
-      to={`/job/${room._id}`}
+    <div
+      //to={`/job/${room._id}`}
       className="w-full max-w-sm px-4 py-3 bg-white rounded-md shadow-md hover:scale-[1.05] transition-all"
     >
       <div className="flex mt-1 items-center justify-between">
@@ -36,7 +36,7 @@ const Card = ({ room }) => {
             </div>
         
       </div>
-    </Link>
+    </div>
   );
 };
 

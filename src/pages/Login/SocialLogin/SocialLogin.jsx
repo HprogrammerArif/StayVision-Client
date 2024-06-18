@@ -1,40 +1,61 @@
 import { FaGithub, FaGoogle, FaTwitter } from "react-icons/fa";
+import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
-import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SocialLogin = () => {
-  const { googleSignIn } = useAuth();
-  const axiosPublic = useAxiosPublic()
   const navigate = useNavigate()
+  const location = useLocation()
+  const from = location?.state || '/'
 
-  const handleGoogleSignIn = () => {
-    googleSignIn()
-      .then((result) => {
-        console.log(result.user);
-
-        //sending new login user info in db
-        const userInfo = {
-          email: result.user?.email,
-          name: result.user?.displayName
-        }
-        axiosPublic.post('/users', userInfo)
-        .then(res => {
-          console.log(res.data);
-          navigate('/')
-        })
+  const { signInWithGoogle, loading, githubLogin } =
+  useAuth()
 
 
+  // handle google signin
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle()
 
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  };
+      navigate(from)
+      toast.success('Signup Successful')
+    } catch (err) {
+      console.log(err)
+      toast.error(err.message)
+    }
+  }
+
+  // handle github signin
+  const handleGithubLogin = async () => {
+    try {
+      await githubLogin()
+
+      navigate(from)
+      toast.success('Signup Successful')
+    } catch (err) {
+      console.log(err)
+      toast.error(err.message)
+    }
+  }
+
+
+  // handle twiter signin
+  const handleTwiterSignIn = async () => {
+    try {
+      // await githubLogin()
+
+      // navigate(from)
+      toast.success('Comming soonn')
+    } catch (err) {
+      console.log(err)
+      toast.error(err.message)
+    }
+  }
 
   return (
     <div>
       <button
+      disabled={loading}
         onClick={handleGoogleSignIn}
         aria-label="Log in with Google"
         className="p-3 rounded-sm"
@@ -43,7 +64,8 @@ const SocialLogin = () => {
         
       </button>
       <button
-        onClick={handleGoogleSignIn}
+      disabled={loading}
+        onClick={handleGithubLogin}
         aria-label="Log in with Google"
         className="p-3 rounded-sm"
       >
@@ -52,7 +74,8 @@ const SocialLogin = () => {
         
       </button>
       <button
-        onClick={handleGoogleSignIn}
+      disabled={loading}
+        onClick={handleTwiterSignIn}
         aria-label="Log in with Google"
         className="p-3 rounded-sm"
       >

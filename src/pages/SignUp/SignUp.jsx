@@ -1,19 +1,71 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { FcGoogle } from 'react-icons/fc'
+import useAuth from '../../hooks/useAuth'
+import axios from 'axios'
+import toast from 'react-hot-toast'
+import { TbFidgetSpinner } from 'react-icons/tb'
+import { imageUpload } from '../../api/utils'
 import SocialLogin from '../Login/SocialLogin/SocialLogin'
 
 const SignUp = () => {
+  const navigate = useNavigate()
+  const {
+    createUser,
+    // signInWithGoogle,
+    updateUserProfile,
+    loading,
+    setLoading,
+  } = useAuth()
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    const form = e.target
+    const name = form.name.value
+    const email = form.email.value
+    const password = form.password.value
+    const image = form.image.files[0]
+    //console.log(name, email, password, image);
+
+    try {
+      setLoading(true)
+      // 1. Upload image and get image url
+      const image_url = await imageUpload(image)
+      console.log(image_url)
+      //2. User Registration
+      const result = await createUser(email, password)
+      console.log(result)
+
+      // 3. Save username and photo in firebase
+      await updateUserProfile(name, image_url)
+      navigate('/')
+      toast.success('Signup Successful')
+    } catch (err) {
+      console.log(err)
+      toast.error(err.message)
+    }
+  }
+
+  // // handle google signin
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     await signInWithGoogle()
+
+  //     navigate('/')
+  //     toast.success('Signup Successful')
+  //   } catch (err) {
+  //     console.log(err)
+  //     toast.error(err.message)
+  //   }
+  // }
+
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
         <div className='mb-8 text-center'>
-          <h1 className='my-3 text-4xl font-bold'>Sign Up</h1>
+          <h1 className='my-3 text-4xl text-purple-900 font-bold'>Sign Up</h1>
           <p className='text-sm text-gray-400'>Welcome to StayVista</p>
         </div>
-        <form
-          noValidate=''
-          action=''
-          className='space-y-6 ng-untouched ng-pristine ng-valid'
-        >
+        <form onSubmit={handleSubmit} className='space-y-6'>
           <div className='space-y-4'>
             <div>
               <label htmlFor='email' className='block mb-2 text-sm'>
@@ -74,10 +126,15 @@ const SignUp = () => {
 
           <div>
             <button
+              disabled={loading}
               type='submit'
-              className='bg-red-800 w-full rounded-md py-3 text-white'
+              className='bg-rose-900 w-full rounded-md py-3 text-white'
             >
-              Continue
+              {loading ? (
+                <TbFidgetSpinner className='animate-spin m-auto' />
+              ) : (
+                'Continue'
+              )}
             </button>
           </div>
         </form>
@@ -88,14 +145,17 @@ const SignUp = () => {
           </p>
           <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
         </div>
-        <div className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'>
+        <div
+          disabled={loading}
+          className='disabled:cursor-not-allowed flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded'
+        >
           <SocialLogin></SocialLogin>
         </div>
         <p className='px-6 text-sm text-center text-gray-400'>
           Already have an account?{' '}
           <Link
             to='/login'
-            className='hover:underline hover:text-rose-500 text-gray-600'
+            className='hover:underline font-semibold text-purple-900 '
           >
             Login
           </Link>

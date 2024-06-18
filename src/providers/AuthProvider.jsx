@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { createContext, useEffect, useState } from 'react'
 import {
+  GithubAuthProvider,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
@@ -16,6 +17,7 @@ import axios from 'axios'
 export const AuthContext = createContext(null)
 const auth = getAuth(app)
 const googleProvider = new GoogleAuthProvider()
+const githubProvider = new GithubAuthProvider();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
@@ -35,6 +37,13 @@ const AuthProvider = ({ children }) => {
     setLoading(true)
     return signInWithPopup(auth, googleProvider)
   }
+
+   // Github login
+   const githubLogin = () => {
+    setLoading(true);
+    return signInWithPopup(auth, githubProvider);
+  };
+
 
   const resetPassword = email => {
     setLoading(true)
@@ -100,6 +109,7 @@ const AuthProvider = ({ children }) => {
     setLoading,
     createUser,
     signIn,
+    githubLogin,
     signInWithGoogle,
     resetPassword,
     logOut,
