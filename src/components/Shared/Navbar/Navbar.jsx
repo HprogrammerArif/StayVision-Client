@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/images/logo.png"
+import avatarImg from "../../../assets/images/placeholder.jpg"
 
 // import 'react-tooltip/dist/react-tooltip.css'
 
@@ -144,7 +145,8 @@ const Navbar = () => {
                     <img
                       referrerPolicy="no-referrer"
                       alt="User Profile Photo"
-                      src={user?.photoURL}
+                      src={user && user.photoURL ? user.photoURL : avatarImg}
+                      // {user && user.photoURL ? user.photoURL : avatarImg}
                     />
                   </div>
                 </div>
