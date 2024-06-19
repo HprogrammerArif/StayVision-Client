@@ -8,17 +8,21 @@ const SocialLogin = () => {
   const location = useLocation()
   const from = location?.state || '/'
 
-  const { signInWithGoogle, loading, githubLogin } =
+  const { signInWithGoogle, loading, githubLogin, saveUser } =
   useAuth()
 
 
   // handle google signin
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle()
+      const googleSignUser = await signInWithGoogle()
+      //console.log(googleSignUser, googleSignUser?.user?.email);
 
       navigate(from)
       toast.success('Signup Successful')
+
+      //save user for role
+      saveUser(googleSignUser?.user?.email);
     } catch (err) {
       console.log(err)
       toast.error(err.message)
@@ -28,10 +32,12 @@ const SocialLogin = () => {
   // handle github signin
   const handleGithubLogin = async () => {
     try {
-      await githubLogin()
+      const githubSignUser = await githubLogin()
 
       navigate(from)
       toast.success('Signup Successful')
+      //save user for role
+      saveUser(githubSignUser?.user?.email);
     } catch (err) {
       console.log(err)
       toast.error(err.message)

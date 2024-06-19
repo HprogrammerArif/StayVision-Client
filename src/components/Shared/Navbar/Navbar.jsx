@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import logo from "../../../assets/images/logo.png"
-import avatarImg from "../../../assets/images/placeholder.jpg"
+import logo from "../../../assets/images/logo.png";
+import avatarImg from "../../../assets/images/placeholder.jpg";
 
 // import 'react-tooltip/dist/react-tooltip.css'
 
-
 import useAuth from "../../../hooks/useAuth";
+import Container from "../Container";
 
 const Navbar = () => {
-  const { user, logOut } = useAuth()
+  const { user, logOut } = useAuth();
 
   const [theme, setTheme] = useState("light");
   // const { loading } = useContext(AuthContex);
@@ -47,9 +47,9 @@ const Navbar = () => {
 
   const links = (
     <>
-      <li>
+      {/* <li>
         <NavLink to="/">Home</NavLink>
-      </li>
+      </li> */}
       {/* <li>
         <NavLink to="/all-foods">All Foods</NavLink>
       </li>
@@ -57,19 +57,20 @@ const Navbar = () => {
         <NavLink to="/food-gallery">Gallery</NavLink>
       </li> */}
 
-      {/* {user && (
-        <li>
-          <NavLink to="/myList">My List</NavLink>
+      {user && (
+        <li className="bg-red-900 text-gray-50 rounded-md">
+          <NavLink to="/dashboard">Dashboard</NavLink>
         </li>
       )}
-      <li>
+      {/* <li>
         <NavLink to="/contact">Contact</NavLink>
       </li> */}
     </>
   );
 
   return (
-    <div className="navbar bg-base-100 shadow-sm ">
+    <Container>
+      <div className="navbar bg-base-100 shadow-sm ">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -102,11 +103,7 @@ const Navbar = () => {
           className="flex items-center p-2"
         >
           <div className="flex justify-center items-center">
-            <img
-              className="w-12 mr-2"
-              src={logo}
-              alt=""
-            />
+            <img className="w-12 mr-2" src={logo} alt="" />
             <span className="font-black text-xl bg-gradient-to-r from-red-800 to-violet-900 bg-clip-text text-transparent mt-1">
               Stay
               <br />
@@ -123,15 +120,14 @@ const Navbar = () => {
           {user ? (
             <>
               <button
-                className="px-3 rounded-md bg-violet-600 text-gray-100 font-medium mr-4"
+                className="px-3 py-0 rounded-md  text-gray-100 font-normal"
                 onClick={handleLogOut}
               >
-                <Link>Logout</Link>
+                <Link className="bg-violet-900 py-2 px-3 rounded-md">Logout</Link>
               </button>
 
               <button
                 className="dropdown referrerPolicy: 'no-referrer' dropdown-end z-50 tooltip-left tooltip "
-                
                 data-tip={user?.displayName}
                 title={user?.displayName}
                 //data-tooltip-id="my-tooltip" data-tooltip-content={user.displayName}
@@ -154,17 +150,15 @@ const Navbar = () => {
                   tabIndex={0}
                   className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
                 >
-                  <li>
-                    <Link to="/my-order" className="">
-                      My Ordere
-                    </Link>
+                  <li className="text-red-900 font-semibold">
+                    <NavLink to="/dashboard">Dashboard</NavLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link to="/add-food-item">Add Food Item</Link>
                   </li>
                   <li>
                     <Link to="/my-added-item">My Added Item</Link>
-                  </li>
+                  </li> */}
                 </ul>
               </button>
             </>
@@ -214,6 +208,7 @@ const Navbar = () => {
         </div>
       </div>
     </div>
+    </Container>
   );
 };
 

@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { imageUpload } from "../../api/utils";
