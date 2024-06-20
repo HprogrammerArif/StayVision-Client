@@ -1,7 +1,6 @@
 import { Helmet } from 'react-helmet-async'
-import Categories from '../../components/Categories/Categories'
-import Rooms from '../../components/Home/Rooms'
 import Carousel from './Banner/Carousel'
+import Rooms from './Session/Rooms'
 
 const Home = () => {
   return (
