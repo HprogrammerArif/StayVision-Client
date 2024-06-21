@@ -22,7 +22,7 @@ const SocialLogin = () => {
       toast.success('Signup Successful')
 
       //save user for role
-      saveUser(googleSignUser?.user?.email);
+      await saveUser(googleSignUser?.user?.email, googleSignUser?.user?.displayName, googleSignUser?.user?.photoURL);
     } catch (err) {
       console.log(err)
       toast.error(err.message)
@@ -33,11 +33,12 @@ const SocialLogin = () => {
   const handleGithubLogin = async () => {
     try {
       const githubSignUser = await githubLogin()
-
+      console.log(githubSignUser, githubSignUser?.user?.email);
       navigate(from)
       toast.success('Signup Successful')
+
       //save user for role
-      saveUser(githubSignUser?.user?.email);
+      await saveUser(githubSignUser?.user?.email, githubSignUser?.user?.displayName, githubSignUser?.user?.photoURL);
     } catch (err) {
       console.log(err)
       toast.error(err.message)

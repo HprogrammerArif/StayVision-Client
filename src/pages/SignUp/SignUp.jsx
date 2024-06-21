@@ -40,8 +40,7 @@ const SignUp = () => {
       navigate("/");
 
       //save user for role
-      saveUser(email, role);
-
+      saveUser(email, name, image_url, role);
       toast.success("Signup Successful");
     } catch (err) {
       console.log(err);
