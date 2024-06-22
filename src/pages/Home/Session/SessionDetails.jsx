@@ -23,97 +23,110 @@ const SessionDetails = () => {
   if (isLoading) return <LoadingSpinner />;
   console.log(session);
   const {
-    food_image,
-    food_name,
+    
+registration_start_date,
+
+registration_end_date,
+    title,
     description,
-    food_category,
-    price,
-    food_origin,
-    made_by,
-    _id,
+    tutor_name,
+    average_rating,    
+class_start_time,
+class_end_date,
+session_duration,
+registration_fee,
+status,
+reviews
   } = session;
   // console.log(image);
 
   return (
-    <div className="p-6 mt-6">
+    <div className="px-28 mt-6">
       <Helmet>
-        <title>TheEstateMarket || Details</title>
+        <title>StayVision || Details</title>
       </Helmet>
-      <div className="dark:bg-gray-100 dark:text-gray-900 mt-6">
-        <div className="container grid grid-cols-12 mx-auto dark:bg-gray-50">
-          <div
-            className="bg-no-repeat bg-cover dark:bg-gray-300 col-span-full lg:col-span-6"
-            // style="background-image: url('https://source.unsplash.com/random/640x480'); background-position: center center; background-blend-mode: multiply; background-size: cover;"
-          >
-            <img
-              className=" pr-12 max-h-[450px] w-full"
-              src={food_image}
-              alt=""
-            />
-          </div>
-          <div className="flex flex-col p-6 col-span-full row-span-full lg:col-span-6 lg:p-10">
-            <div className="flex justify-start"></div>
-            <h1 className="text-3xl font-semibold ">
-              <span className="font-bold">Name:</span>
-              {food_name}
-            </h1>
-            <p className=" flex-1 py-4">
-              <span className="font-bold ">Descriotion:</span>
-              {` ${description}`}
-            </p>
+      <div className='flex flex-col md:flex-row justify-around gap-5  items-center min-h-[calc(100vh-306px)] md:max-w-screen-xl mx-auto '>
+      {/* Job Details */}
+      <div className='flex-1  px-4 py-7 bg-white rounded-md shadow-md md:min-h-[350px]'>
+        <div className='flex items-center justify-between'>
+          <span className='text-sm font-light text-gray-800 '>
+          Registration start: {registration_start_date}
+          </span>
+          <span className='text-sm font-light text-gray-800 '>
 
-            <div className="flex items-center justify-between mb-4 ">
-              <p className="flex-1 ">
-                <span className="font-bold">Origin:</span>
-                {` ${food_origin}`}
+Registration end: {registration_end_date}
+          </span>
+        </div>
+        <span className='px-4 py-1 text-xs text-blue-800 uppercase bg-blue-200 rounded-full '>
+            Status: {status}
+          </span>
+        <div>
+          <h1 className='mt-2 text-3xl font-semibold text-gray-800 '>
+          {title}
+          </h1>
+
+          <p className='mt-2 text-lg text-gray-600 '>
+            {description}...
+          </p>
+          <p className='mt-6 text-sm font-bold text-gray-600 '>
+            Tutor Details:
+          </p>
+          <div className='flex items-center gap-5'>
+            <div>
+              <p className='mt-2 text-sm  text-gray-600 '>Name: {tutor_name}.</p>
+              <p className='mt-2 text-sm  text-gray-600 '>
+                Email: jhankar@mahbub.com
               </p>
-              <p className="flex-1 ">
-                <span className="font-bold">Area:</span>
-                {/* {` ${area}`} */}
+              <p className='mt-2 text-sm  text-gray-600 '>
+              Average rating: {average_rating}
               </p>
             </div>
-
-            <p className="flex-1 ">
-              <span className="font-bold">price:</span>
-              {` ${price}`}
-            </p>
-            <p className="flex-1 ">
-              <span className="font-bold">Food Catagory:</span>
-              {` ${food_category}`}
-            </p>
-
-            {/* <p className="flex-1 pt-3 flex">
-              <span className="font-bold mr-4">facilities:</span>
-              {facilities.map((item, id) => (
-                <p key={id} className="font-bold mr-2">{`#${item}`}</p>
-              ))}
-            </p> */}
-
-            <div className="flex items-center justify-between pt-2">
-              <div className="flex space-x-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-5 h-5 dark:text-gray-600"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="self-center text-md">{made_by}</span>
-              </div>
-              <Link to={`/purchase-food/${_id}`}>
-                <button className="btn text-white capitalize bg-gradient-to-l from-green-700 to-violet-800">
-                  Add To Cart
-                </button>
-              </Link>
+            <div className='rounded-full object-cover overflow-hidden w-14 h-14'>
+              <img src='' alt='' />
             </div>
           </div>
+          <div className="flex justify-between">
+          <p className='mt-3 text-md font-bold text-gray-600 '>
+          Class start time: {class_start_time}
+          </p>
+          <p className='mt-3 text-md font-bold text-gray-600 '>
+          Class start time: {class_end_date}
+          </p>
+          </div>
+          <div>
+            <p>Session Duration: <b>{session_duration}</b></p>
+            <p>Student Reviews: <b>{reviews.rating}</b></p>
+          </div>
+          <p className='mt-6 text-lg font-bold text-gray-600 '>
+            Fee: ${registration_fee}
+          </p>
+
+          <button
+  className={`px-4 py-2 font-bold text-white rounded ${
+    registration_start_date && registration_end_date && 
+    new Date(registration_start_date) <= new Date() && new Date(registration_end_date) >= new Date() 
+      ? 'bg-blue-500 hover:bg-blue-700' 
+      : 'bg-gray-500 cursor-not-allowed'
+  }`}
+  disabled={
+    !registration_start_date || 
+    !registration_end_date || 
+    new Date(registration_start_date) > new Date() || 
+    new Date(registration_end_date) < new Date()
+  }
+>
+  {
+    registration_start_date && registration_end_date &&
+    new Date(registration_start_date) <= new Date() && new Date(registration_end_date) >= new Date()
+      ? 'Book Now' 
+      : 'Registration Closed'
+  }
+</button>
         </div>
       </div>
+      {/* Place A Bid Form */}
+      
+    </div>
     </div>
   );
 };

@@ -10,7 +10,7 @@ const Card = ({ room }) => {
       <div className="flex mt-1 items-center justify-between">
         <span className="px-3 py-1 text-sm text-blue-800 uppercase bg-blue-200 rounded-full ">
           <button>
-            {new Date(room?.registrationEndTime) > new Date()
+            {new Date(room?.registration_end_date) > new Date()
               ? "Ongoing"
               : "Closed"}
           </button>

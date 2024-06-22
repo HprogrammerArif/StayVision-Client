@@ -1,3 +1,4 @@
+
 import useAuth from './useAuth'
 import useAxiosSecure from './useAxiosSecure'
 import { useQuery } from '@tanstack/react-query'
@@ -15,7 +16,7 @@ const useRole = () => {
   })
 
   //   Fetch user info using logged in user email
-
+console.log(role);
   return [role, isLoading]
 }
 
