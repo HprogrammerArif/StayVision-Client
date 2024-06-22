@@ -17,6 +17,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import SessionDetails from "../pages/Home/Session/SessionDetails";
 import Main from "../layouts/Main";
 import Dashboard from "../layouts/Dashboard";
+import UserHome from "../pages/Dashboard/Guest/UserHome";
 
 
 export const router = createBrowserRouter([
@@ -49,71 +50,85 @@ export const router = createBrowserRouter([
         <Dashboard />
       </PrivateRoute>
     ),
-    // children: [
-    //   {
-    //     index: true,
-    //     element: (
-    //       <PrivateRoute>
-    //         <Statistics />
-    //       </PrivateRoute>
-    //     ),
-    //   },
-    //   {
-    //     path: 'add-room',
-    //     element: (
-    //       <PrivateRoute>
-    //         <HostRoute>
-    //           <AddRoom />
-    //         </HostRoute>
-    //       </PrivateRoute>
-    //     ),
-    //   },
-    //   {
-    //     path: 'my-listings',
-    //     element: (
-    //       <PrivateRoute>
-    //         <HostRoute>
-    //           <MyListings />
-    //         </HostRoute>
-    //       </PrivateRoute>
-    //     ),
-    //   },
-    //   {
-    //     path: 'manage-users',
-    //     element: (
-    //       <PrivateRoute>
-    //         <AdminRoute>
-    //           <ManageUsers />
-    //         </AdminRoute>
-    //       </PrivateRoute>
-    //     ),
-    //   },
-    //   {
-    //     path: 'my-bookings',
-    //     element: (
-    //       <PrivateRoute>
-    //         <MyBookings />
-    //       </PrivateRoute>
-    //     ),
-    //   },
-    //   {
-    //     path: 'manage-bookings',
-    //     element: (
-    //       <PrivateRoute>
-    //         <HostRoute>
-    //           <ManageBookings />
-    //         </HostRoute>
-    //       </PrivateRoute>
-    //     ),
-    //   },
-    //   {
-    //     path: 'profile',
-    //     element: (
-    //       <PrivateRoute>
-    //         <Profile />
-    //       </PrivateRoute>
-    //     ),
-    //   },
-    // ],
+    children: [
+      {
+        path: "userHome",
+        element: <UserHome></UserHome>,
+      },
+
+      //admin only routes
+      {
+        path: 'adminHome',
+        element: 
+        //<AdminRoute>
+        <UserHome></UserHome>
+          //</AdminRoute>
+      },
+
+      // {
+      //   index: true,
+      //   element: (
+      //     <PrivateRoute>
+      //       <Statistics />
+      //     </PrivateRoute>
+      //   ),
+      // },
+      // {
+      //   path: 'add-room',
+      //   element: (
+      //     <PrivateRoute>
+      //       <HostRoute>
+      //         <AddRoom />
+      //       </HostRoute>
+      //     </PrivateRoute>
+      //   ),
+      // },
+      // {
+      //   path: 'my-listings',
+      //   element: (
+      //     <PrivateRoute>
+      //       <HostRoute>
+      //         <MyListings />
+      //       </HostRoute>
+      //     </PrivateRoute>
+      //   ),
+      // },
+      // {
+      //   path: 'manage-users',
+      //   element: (
+      //     <PrivateRoute>
+      //       <AdminRoute>
+      //         <ManageUsers />
+      //       </AdminRoute>
+      //     </PrivateRoute>
+      //   ),
+      // },
+      // {
+      //   path: 'my-bookings',
+      //   element: (
+      //     <PrivateRoute>
+      //       <MyBookings />
+      //     </PrivateRoute>
+      //   ),
+      // },
+      // {
+      //   path: 'manage-bookings',
+      //   element: (
+      //     <PrivateRoute>
+      //       <HostRoute>
+      //         <ManageBookings />
+      //       </HostRoute>
+      //     </PrivateRoute>
+      //   ),
+      // },
+      // {
+      //   path: 'profile',
+      //   element: (
+      //     <PrivateRoute>
+      //       <Profile />
+      //     </PrivateRoute>
+      //   ),
+      // },
+    ],
   },
 ]);
