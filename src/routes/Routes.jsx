@@ -20,6 +20,9 @@ import Dashboard from "../layouts/Dashboard";
 import UserHome from "../pages/Dashboard/Guest/UserHome";
 import MyBookings from "../pages/Dashboard/Guest/MyBookings";
 import BookingDetails from "../pages/Dashboard/Guest/BookingDetails";
+import CreateNotes from "../pages/Dashboard/Guest/CreateNotes";
+import ManageNotes from "../pages/Dashboard/Guest/ManageNotes";
+import UpdateItem from "../pages/Dashboard/Guest/UpdateItem";
 
 export const router = createBrowserRouter([
   {
@@ -83,6 +86,32 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/carts/${params.id}`),
+      },
+      {
+        path: "createNotes",
+        element: (
+          <PrivateRoute>
+            <CreateNotes></CreateNotes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "manageNotes",
+        element: (
+          <PrivateRoute>
+            <ManageNotes></ManageNotes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/updateNotes/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateItem></UpdateItem>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/note/${params.id}`),
       },
 
       // {

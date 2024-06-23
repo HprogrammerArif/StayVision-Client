@@ -88,6 +88,7 @@ const Dashboard = () => {
               <li>
                 <NavLink to="/dashboard/createNotes">
                   <FaNotesMedical></FaNotesMedical> Create Notes
+                  
                 </NavLink>
               </li>
 

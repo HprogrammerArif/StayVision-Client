@@ -45,7 +45,7 @@ const BookingDetails = () => {
     const cartItem = {
       comment,
       rating,
-      reviewId: _id,
+      reviewId:  _id,
     };
 
     axiosSecure.post("/reviews", cartItem)
