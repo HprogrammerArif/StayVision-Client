@@ -23,6 +23,9 @@ import BookingDetails from "../pages/Dashboard/Guest/BookingDetails";
 import CreateNotes from "../pages/Dashboard/Guest/CreateNotes";
 import ManageNotes from "../pages/Dashboard/Guest/ManageNotes";
 import UpdateItem from "../pages/Dashboard/Guest/UpdateItem";
+import StudyMaterials from "../pages/Dashboard/Guest/StudyMaterials";
+import TutorRoute from "./TutorRoute";
+import CreateStudySession from "../pages/Dashboard/Host/CreateStudySession";
 
 export const router = createBrowserRouter([
   {
@@ -60,7 +63,7 @@ export const router = createBrowserRouter([
         element: <UserHome></UserHome>,
       },
 
-      //admin only routes
+      //student only routes
       {
         path: "adminHome",
         element: (
@@ -112,6 +115,27 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/note/${params.id}`),
+      },
+      {
+        path: "studyMaterials",
+        element: (
+          <PrivateRoute>
+            <StudyMaterials></StudyMaterials>
+          </PrivateRoute>
+        ),
+      },
+
+      //TUTOR ROUTE
+
+      {
+        path: "createStudySession",
+        element: (
+          <PrivateRoute>
+            <TutorRoute>
+              <CreateStudySession></CreateStudySession>
+            </TutorRoute>
+          </PrivateRoute>
+        ),
       },
 
       // {
