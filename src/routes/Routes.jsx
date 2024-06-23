@@ -18,7 +18,8 @@ import SessionDetails from "../pages/Home/Session/SessionDetails";
 import Main from "../layouts/Main";
 import Dashboard from "../layouts/Dashboard";
 import UserHome from "../pages/Dashboard/Guest/UserHome";
-
+import MyBookings from "../pages/Dashboard/Guest/MyBookings";
+import BookingDetails from "../pages/Dashboard/Guest/BookingDetails";
 
 export const router = createBrowserRouter([
   {
@@ -44,7 +45,7 @@ export const router = createBrowserRouter([
   },
 
   {
-    path: '/dashboard',
+    path: "/dashboard",
     element: (
       <PrivateRoute>
         <Dashboard />
@@ -58,11 +59,30 @@ export const router = createBrowserRouter([
 
       //admin only routes
       {
-        path: 'adminHome',
-        element: 
-        //<AdminRoute>
-        <UserHome></UserHome>
-          //</AdminRoute>
+        path: "adminHome",
+        element: (
+          //<AdminRoute>
+          <UserHome></UserHome>
+        ),
+        //</AdminRoute>
+      },
+      {
+        path: "myBooking",
+        element: (
+          <PrivateRoute>
+            <MyBookings />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "myBooking/booking-details/:id",
+        element: (
+          <PrivateRoute>
+            <BookingDetails></BookingDetails>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/carts/${params.id}`),
       },
 
       // {

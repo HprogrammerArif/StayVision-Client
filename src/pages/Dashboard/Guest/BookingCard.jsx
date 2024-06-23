@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const Card = ({ room  }) => {
+
+const BookingCard = ({room}) => {
   console.log(room);
   return (
     <div
@@ -29,9 +30,9 @@ const Card = ({ room  }) => {
         </p>
         
         <div className="mt-2 text-sm text-gray-600 ">
-            <Link to={`/session/${room?._id}`}>
+            <Link to={`booking-details/${room?._id}`}>
             <button className="px-2 py-1 text-white bg-gradient-to-r from-green-900 to-red-800">
-              Read More
+              Details
             </button>
             </Link>
             </div>
@@ -41,16 +42,8 @@ const Card = ({ room  }) => {
   );
 };
 
-Card.propTypes = {
+BookingCard.propTypes = {
   room: PropTypes.object,
 };
 
-export default Card;
-
-{
-  /* <button>
-            {new Date(room?.registrationEndTime) > new Date()
-              ? "Ongoing"
-              : "Closed"}
-          </button> */
-}
+export default BookingCard;

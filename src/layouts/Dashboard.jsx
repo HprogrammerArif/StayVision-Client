@@ -9,6 +9,7 @@ import {
   FaItunesNote,
   FaList,
   FaNotesMedical,
+  FaRegBookmark,
   FaSearch,
   FaShoppingCart,
   FaStickyNote,
@@ -20,9 +21,6 @@ import {
 import { NavLink, Outlet } from "react-router-dom";
 import useRole from "../hooks/useRole";
 import LoadingSpinner from "../components/Shared/LoadingSpinner";
-// import useCart from "../hooks/useCart";
-// import useAdmin from "../hooks/useAdmin";
-// import useRole from "../hooks/useRole"
 
 const Dashboard = () => {
   // const [cart] = useCart();
@@ -78,6 +76,12 @@ const Dashboard = () => {
               <li>
                 <NavLink to="/dashboard/userHome">
                   <FaHome></FaHome> User Home (Student)
+                </NavLink>
+              </li>
+              
+              <li>
+                <NavLink to="/dashboard/myBooking">
+                  <FaRegBookmark></FaRegBookmark> My Booking
                 </NavLink>
               </li>
 
