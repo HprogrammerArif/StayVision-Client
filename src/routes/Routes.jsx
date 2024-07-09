@@ -26,6 +26,7 @@ import UpdateItem from "../pages/Dashboard/Guest/UpdateItem";
 import StudyMaterials from "../pages/Dashboard/Guest/StudyMaterials";
 import TutorRoute from "./TutorRoute";
 import CreateStudySession from "../pages/Dashboard/Host/CreateStudySession";
+import Profile from "../pages/Dashboard/Common/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -59,10 +60,15 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "userHome",
+        index: true,
         element: <UserHome></UserHome>,
       },
 
+      //COMMON ROUTE
+      {
+        path: "profile",
+        element: <Profile />,
+      },
       //student only routes
       {
         path: "adminHome",

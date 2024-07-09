@@ -58,7 +58,7 @@ const SessionDetails = () => {
         title,
         description,
         tutor_name,
-        average_rating,
+        average_rating:0,
         class_start_time,
         class_end_date,
         session_duration,
@@ -162,7 +162,7 @@ const SessionDetails = () => {
                 Session Duration: <b>{session_duration}</b>
               </p>
               <p>
-                Student Reviews: <b>{reviews.rating}</b>
+                Student Reviews: <b>{reviews?.rating}</b>
               </p>
             </div>
             <p className="mt-6 text-lg font-bold text-gray-600 ">
