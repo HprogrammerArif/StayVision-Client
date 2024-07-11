@@ -51,7 +51,7 @@ const Dashboard = () => {
 
                 <li>
                   <NavLink to="/dashboard/vieweStudySession">
-                    <FaList></FaList> View all Study Session
+                    <FaList></FaList> View All Session
                     {/* ({cart?.length}) */}
                   </NavLink>
                 </li>
@@ -63,8 +63,8 @@ const Dashboard = () => {
                 </li>
 
                 <li>
-                  <NavLink to="/dashboard/users">
-                    <FaUsers></FaUsers> All Users
+                  <NavLink to="/dashboard/manage-users">
+                    <FaUsers></FaUsers> Manage Users
                   </NavLink>
                 </li>
               </>

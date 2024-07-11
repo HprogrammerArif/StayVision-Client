@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import UpdateUserModal from '../../Modal/UpdateUserModal'
 import { useMutation } from '@tanstack/react-query'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import toast from 'react-hot-toast'
 import useAuth from '../../../hooks/useAuth'
+import UpdateUserModal from '../../../pages/Modal/UpdateUserModal'
 const UserDataRow = ({ user, refetch }) => {
   const { user: loggedInUser } = useAuth()
 
@@ -28,6 +28,7 @@ const UserDataRow = ({ user, refetch }) => {
 
   //   modal handler
   const modalHandler = async selected => {
+    console.log(selected);
     if (loggedInUser.email === user.email) {
       toast.error('Action Not Allowed')
       return setIsOpen(false)

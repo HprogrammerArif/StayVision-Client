@@ -27,6 +27,7 @@ import StudyMaterials from "../pages/Dashboard/Guest/StudyMaterials";
 import TutorRoute from "./TutorRoute";
 import CreateStudySession from "../pages/Dashboard/Host/CreateStudySession";
 import Profile from "../pages/Dashboard/Common/Profile";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 
 export const router = createBrowserRouter([
   {
@@ -69,6 +70,7 @@ export const router = createBrowserRouter([
         path: "profile",
         element: <Profile />,
       },
+
       //student only routes
       {
         path: "adminHome",
@@ -142,6 +144,12 @@ export const router = createBrowserRouter([
             </TutorRoute>
           </PrivateRoute>
         ),
+      },
+
+      //ADMIN ROUTE
+      {
+        path: 'manage-users',
+        element:<ManageUsers></ManageUsers>
       },
 
       // {
