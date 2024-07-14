@@ -1,15 +1,16 @@
 import { Helmet } from "react-helmet-async";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useAxiosCommon from "../../../hooks/useAxiosCommon";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import useAuth from "../../../hooks/useAuth";
-import { axiosSecure } from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const SessionDetails = () => {
   const { id } = useParams();
   const axiosCommon = useAxiosCommon();
+  const axiosSecure = useAxiosSecure()
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

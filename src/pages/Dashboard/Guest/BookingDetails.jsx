@@ -3,12 +3,13 @@ import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 // import useCart from "../../../hooks/useCart";
 import { useState } from "react";
 import Rating from "react-rating";
-import { axiosSecure } from "../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
 
 const BookingDetails = () => {
   const data = useLoaderData();
+  const axiosSecure = useAxiosSecure()
   const [rating, setRating] = useState(0);
   const navigate = useNavigate()
 
