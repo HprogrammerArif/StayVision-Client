@@ -1,19 +1,22 @@
 import { Helmet } from "react-helmet-async";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import useAxiosCommon from "../../../hooks/useAxiosCommon";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import useAuth from "../../../hooks/useAuth";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useState } from "react";
+import BookingModal from "../../../components/Modal/BookingModal";
 
 const SessionDetails = () => {
   const { id } = useParams();
-  const axiosCommon = useAxiosCommon();
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
+  // const navigate = useNavigate();
+  // const location = useLocation();
+
+  //payment and booking releted
+  const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const {
     data: session = {},
@@ -22,13 +25,14 @@ const SessionDetails = () => {
   } = useQuery({
     queryKey: ["session", id],
     queryFn: async () => {
-      const { data } = await axiosCommon.get(`/session/${id}`);
+      const { data } = await axiosSecure.get(`/session/${id}`);
       return data;
     },
   });
 
   if (isLoading) return <LoadingSpinner />;
-  console.log(session);
+
+  //console.log(session);
   const {
     registration_start_date,
     _id,
@@ -46,60 +50,64 @@ const SessionDetails = () => {
   } = session;
   // console.log(image);
 
-  //booking session
-  const handleAddToCart = () => {
-    if (user && user.email) {
-      //send cart item to the database
-      // console.log(food, user.email);
-      const cartItem = {
-        sessionId: _id,
-        email: user.email,
-        registration_start_date,
-        registration_end_date,
-        title,
-        description,
-        tutor_name,
-        average_rating:0,
-        class_start_time,
-        class_end_date,
-        session_duration,
-        registration_fee,
-        status,
-        reviews,
-      };
-
-      axiosSecure.post("/carts", cartItem).then((res) => {
-        console.log(res.data);
-
-        if (res.data.insertedId) {
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: `${title} added to your cart`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          // refatch the cart to update the cart items
-          refetch();
-        }
-      });
-    } else {
-      Swal.fire({
-        title: "You are not logged in",
-        text: "Please login to add to the cart?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, Log In",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          //send the user to  login page
-          navigate("/login", { state: { from: location } });
-        }
-      });
-    }
+  const closeModal = () => {
+    setIsOpen(false);
   };
+
+  // //booking session
+  // const handleAddToCart = () => {
+  //   if (user && user.email) {
+  //     //send cart item to the database
+  //     // console.log(food, user.email);
+  //     const cartItem = {
+  //       sessionId: _id,
+  //       email: user.email,
+  //       registration_start_date,
+  //       registration_end_date,
+  //       title,
+  //       description,
+  //       tutor_name,
+  //       average_rating: 0,
+  //       class_start_time,
+  //       class_end_date,
+  //       session_duration,
+  //       registration_fee,
+  //       status,
+  //       reviews,
+  //     };
+
+  //     axiosSecure.post("/carts", cartItem).then((res) => {
+  //       console.log(res.data);
+
+  //       if (res.data.insertedId) {
+  //         Swal.fire({
+  //           position: "top-end",
+  //           icon: "success",
+  //           title: `${title} added to your cart`,
+  //           showConfirmButton: false,
+  //           timer: 1500,
+  //         });
+  //         // refatch the cart to update the cart items
+  //         refetch();
+  //       }
+  //     });
+  //   } else {
+  //     Swal.fire({
+  //       title: "You are not logged in",
+  //       text: "Please login to add to the cart?",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#3085d6",
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonText: "Yes, Log In",
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         //send the user to  login page
+  //         navigate("/login", { state: { from: location } });
+  //       }
+  //     });
+  //   }
+  // };
 
   return (
     <div className="px-28 mt-6">
@@ -171,7 +179,8 @@ const SessionDetails = () => {
             </p>
 
             <button
-              onClick={handleAddToCart}
+              onClick={() => setIsOpen(true)}
+              //disabled={room?.booked === true}
               className={`px-4 py-2 font-bold text-white rounded ${
                 registration_start_date &&
                 registration_end_date &&
@@ -184,7 +193,8 @@ const SessionDetails = () => {
                 !registration_start_date ||
                 !registration_end_date ||
                 new Date(registration_start_date) > new Date() ||
-                new Date(registration_end_date) < new Date()
+                new Date(registration_end_date) < new Date() ||
+                session?.booked === true
               }
             >
               {registration_start_date &&
@@ -194,9 +204,20 @@ const SessionDetails = () => {
                 ? "Book Now"
                 : "Registration Closed"}
             </button>
+
+            {/* Modal for payment */}
+            <BookingModal
+              refetch={refetch}
+              isOpen={isOpen}
+              closeModal={closeModal}
+              bookingInfo={{
+                ...session,
+                price: registration_fee,
+                guest: { name: user?.displayName },
+              }}
+            ></BookingModal>
           </div>
         </div>
-        {/* Place A Bid Form */}
       </div>
     </div>
   );

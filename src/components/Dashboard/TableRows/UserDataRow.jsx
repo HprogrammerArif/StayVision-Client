@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import toast from 'react-hot-toast'
 import useAuth from '../../../hooks/useAuth'
-import UpdateUserModal from '../../../pages/Modal/UpdateUserModal'
+import UpdateUserModal from '../../Modal/UpdateUserModal'
 const UserDataRow = ({ user, refetch }) => {
   const { user: loggedInUser } = useAuth()
 
