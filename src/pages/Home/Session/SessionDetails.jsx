@@ -35,7 +35,7 @@ const SessionDetails = () => {
   //console.log(session);
   const {
     registration_start_date,
-    _id,
+    
     registration_end_date,
     title,
     description,
@@ -45,7 +45,7 @@ const SessionDetails = () => {
     class_end_date,
     session_duration,
     registration_fee,
-    status,
+    
     reviews,
   } = session;
   // console.log(image);
@@ -201,10 +201,12 @@ const SessionDetails = () => {
               registration_end_date &&
               new Date(registration_start_date) <= new Date() &&
               new Date(registration_end_date) >= new Date()
-                ? "Book Now"
+                ? session?.booked === false
+                  ? "Book Now"
+                  : "Already Booked"
                 : "Registration Closed"}
             </button>
-
+            {/* "Book Now" */}
             {/* Modal for payment */}
             <BookingModal
               refetch={refetch}
@@ -213,7 +215,11 @@ const SessionDetails = () => {
               bookingInfo={{
                 ...session,
                 price: registration_fee,
-                guest: { name: user?.displayName },
+                student: {
+                  name: user?.displayName,
+                  email: user?.email,
+                  image: user?.photoURL,
+                },
               }}
             ></BookingModal>
           </div>

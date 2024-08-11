@@ -111,6 +111,11 @@ const CheckoutForm = ({ closeModal, bookingInfo, refetch }) => {
         console.log(data);
 
         //3. changed room status to booked in db
+        const { data: updateStatus } = await axiosSecure.patch(
+          `/session/status/${bookingInfo?._id}`,
+          { status: true }
+        );
+        console.log(updateStatus);
 
         //update ui
         refetch();

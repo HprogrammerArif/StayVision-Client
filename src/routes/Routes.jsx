@@ -96,7 +96,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_API_URL}/carts/${params.id}`),
+          fetch(`${import.meta.env.VITE_API_URL}/bookings/details/${params.id}`),
       },
       {
         path: "createNotes",

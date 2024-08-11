@@ -63,7 +63,7 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
                 </div>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Student: {bookingInfo.guest.name}
+                    Student: {bookingInfo?.student.name}
                   </p>
                 </div>
                 <div className="mt-2">

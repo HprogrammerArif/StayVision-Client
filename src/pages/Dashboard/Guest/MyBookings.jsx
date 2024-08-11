@@ -1,22 +1,95 @@
 import { Helmet } from "react-helmet-async";
-import useCart from "../../../hooks/useCart";
-import BookingCard from "./BookingCard";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import BookingDataRow from "../../../components/Dashboard/TableRows/BookingDataRow";
 
 const MyBookings = () => {
-  const [cart] = useCart();
-  // console.log(cart);
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+
+  //fetch bookings data
+  const {
+    data: bookings = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["myBooking", user?.email],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/myBooking/${user?.email}`);
+      return data;
+    },
+  });
+  console.log(bookings);
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <>
       <Helmet>
         <title>My Bookings</title>
       </Helmet>
-      <h2 className="text-4xl">Total Order: {cart.length} </h2>
 
-      <div className="pt-12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10">
-        {cart.map((item) => (
-          <BookingCard key={item._id} room={item}></BookingCard>
-        ))}
+      <div className="container mx-auto px-4 sm:px-8">
+        <div className="py-8">
+          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+              <table className="min-w-full leading-normal">
+                <thead>
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    >
+                      Title
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    >
+                      Info
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    >
+                      Price
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    >
+                      From
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    >
+                      To
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    >
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Table Row Data */}
+                  {bookings.map((booking) => (
+                    <BookingDataRow
+                      key={booking._id}
+                      booking={booking}
+                      refetch={refetch}
+                      isLoading={isLoading}
+                    ></BookingDataRow>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

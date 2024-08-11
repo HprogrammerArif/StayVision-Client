@@ -1,17 +1,15 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
-import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
-// import useCart from "../../../hooks/useCart";
 import { useState } from "react";
 import Rating from "react-rating";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
 const BookingDetails = () => {
   const data = useLoaderData();
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
   const [rating, setRating] = useState(0);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     registration_start_date,
@@ -25,7 +23,7 @@ const BookingDetails = () => {
     class_end_date,
     session_duration,
     registration_fee,
-    status,
+
     reviews,
     email,
   } = data;
@@ -46,10 +44,11 @@ const BookingDetails = () => {
     const cartItem = {
       comment,
       rating,
-      reviewId:  _id,
+      reviewId: _id,
     };
 
-    axiosSecure.post("/reviews", cartItem)
+    axiosSecure
+      .post("/reviews", cartItem)
       .then((res) => {
         console.log(res.data);
 
@@ -164,7 +163,7 @@ const BookingDetails = () => {
         </div>
       </div>
 
-      {/* Place A Bid Form */}
+      {/* Drop Review Form */}
       <section className="p-6 w-full bg-white rounded-md shadow-md flex-1 md:min-h-[350px]">
         <h2 className="text-lg font-semibold text-gray-700 capitalize">
           Give Review
