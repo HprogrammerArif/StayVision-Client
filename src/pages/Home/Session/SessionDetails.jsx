@@ -1,19 +1,19 @@
 import { Helmet } from "react-helmet-async";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import useAuth from "../../../hooks/useAuth";
-// import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import BookingModal from "../../../components/Modal/BookingModal";
+import toast from "react-hot-toast";
 
 const SessionDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const location = useLocation();
-
+  const [processing, setProcessing] = useState(false);
   //payment and booking releted
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
@@ -30,12 +30,10 @@ const SessionDetails = () => {
     },
   });
 
-  if (isLoading) return <LoadingSpinner />;
 
   //console.log(session);
   const {
     registration_start_date,
-    
     registration_end_date,
     title,
     description,
@@ -45,7 +43,6 @@ const SessionDetails = () => {
     class_end_date,
     session_duration,
     registration_fee,
-    
     reviews,
   } = session;
   // console.log(image);
@@ -54,60 +51,53 @@ const SessionDetails = () => {
     setIsOpen(false);
   };
 
-  // //booking session
-  // const handleAddToCart = () => {
-  //   if (user && user.email) {
-  //     //send cart item to the database
-  //     // console.log(food, user.email);
-  //     const cartItem = {
-  //       sessionId: _id,
-  //       email: user.email,
-  //       registration_start_date,
-  //       registration_end_date,
-  //       title,
-  //       description,
-  //       tutor_name,
-  //       average_rating: 0,
-  //       class_start_time,
-  //       class_end_date,
-  //       session_duration,
-  //       registration_fee,
-  //       status,
-  //       reviews,
-  //     };
+  const bookingInfo = {
+    ...session,
+    price: registration_fee,
+    student: {
+      name: user?.displayName,
+      email: user?.email,
+      image: user?.photoURL,
+    },
+  };
 
-  //     axiosSecure.post("/carts", cartItem).then((res) => {
-  //       console.log(res.data);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setProcessing(true);
 
-  //       if (res.data.insertedId) {
-  //         Swal.fire({
-  //           position: "top-end",
-  //           icon: "success",
-  //           title: `${title} added to your cart`,
-  //           showConfirmButton: false,
-  //           timer: 1500,
-  //         });
-  //         // refatch the cart to update the cart items
-  //         refetch();
-  //       }
-  //     });
-  //   } else {
-  //     Swal.fire({
-  //       title: "You are not logged in",
-  //       text: "Please login to add to the cart?",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Yes, Log In",
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         //send the user to  login page
-  //         navigate("/login", { state: { from: location } });
-  //       }
-  //     });
-  //   }
-  // };
+    //1. create payment info obj
+    const paymentInfo = {
+      ...bookingInfo,
+      sessionId: bookingInfo._id,
+      transactionId: null,
+      date: new Date(),
+    };
+    delete paymentInfo._id;
+    console.log(paymentInfo);
+
+    try {
+      //2. save payment info in booking collection(db)
+      const { data } = await axiosSecure.post("/booking", paymentInfo);
+      console.log(data);
+
+      //3. changed room status to booked in db
+      const { data: updateStatus } = await axiosSecure.patch(
+        `/session/status/${bookingInfo?._id}`,
+        { status: true }
+      );
+      console.log(updateStatus);
+
+      //update ui
+      refetch();
+      toast.success("Room Booked Sucessfully!!");
+      navigate("/dashboard/myBooking");
+    } catch (err) {
+      console.log(err);
+    }
+    setProcessing(false);
+  };
+
+  if (isLoading || processing) return <LoadingSpinner />;
 
   return (
     <div className="px-28 mt-6">
@@ -178,34 +168,58 @@ const SessionDetails = () => {
               Fee: ${registration_fee}
             </p>
 
-            <button
-              onClick={() => setIsOpen(true)}
-              //disabled={room?.booked === true}
-              className={`px-4 py-2 font-bold text-white rounded ${
-                registration_start_date &&
-                registration_end_date &&
-                new Date(registration_start_date) <= new Date() &&
+            {registration_fee <= 0 ? (
+              <button
+                onClick={(e) => handleSubmit(e)}
+                //disabled={room?.booked === true}
+                className={`px-4 py-2 font-bold text-white rounded ${
+                  registration_start_date &&
+                  registration_end_date &&
+                  new Date(registration_start_date) <= new Date() &&
+                  new Date(registration_end_date) >= new Date()
+                    ? "bg-blue-500 hover:bg-blue-700"
+                    : "bg-gray-500 cursor-not-allowed"
+                }`}
+                disabled={
+                  new Date(registration_start_date) > new Date() ||
+                  new Date(registration_end_date) < new Date() ||
+                  session?.booked === true
+                }
+              >
+                {new Date(registration_start_date) <= new Date() &&
                 new Date(registration_end_date) >= new Date()
-                  ? "bg-blue-500 hover:bg-blue-700"
-                  : "bg-gray-500 cursor-not-allowed"
-              }`}
-              disabled={
-                !registration_start_date ||
-                !registration_end_date ||
-                new Date(registration_start_date) > new Date() ||
-                new Date(registration_end_date) < new Date() ||
-                session?.booked === true
-              }
-            >
-              {registration_start_date &&
-              registration_end_date &&
-              new Date(registration_start_date) <= new Date() &&
-              new Date(registration_end_date) >= new Date()
-                ? session?.booked === false
-                  ? "Book Now"
-                  : "Already Booked"
-                : "Registration Closed"}
-            </button>
+                  ? session?.booked === false || session?.booked === undefined
+                    ? "Book Now"
+                    : "Already Booked"
+                  : "Registration Closed"}
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsOpen(true)}
+                //disabled={room?.booked === true}
+                className={`px-4 py-2 font-bold text-white rounded ${
+                  registration_start_date &&
+                  registration_end_date &&
+                  new Date(registration_start_date) <= new Date() &&
+                  new Date(registration_end_date) >= new Date()
+                    ? "bg-blue-500 hover:bg-blue-700"
+                    : "bg-gray-500 cursor-not-allowed"
+                }`}
+                disabled={
+                  new Date(registration_start_date) > new Date() ||
+                  new Date(registration_end_date) < new Date() ||
+                  session?.booked === true
+                }
+              >
+                {new Date(registration_start_date) <= new Date() &&
+                new Date(registration_end_date) >= new Date()
+                  ? session?.booked === false || session?.booked === undefined
+                    ? "Book Now"
+                    : "Already Booked"
+                  : "Registration Closed"}
+              </button>
+            )}
+
             {/* "Book Now" */}
             {/* Modal for payment */}
             <BookingModal
