@@ -8,7 +8,6 @@ import axios from "axios";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
-
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);

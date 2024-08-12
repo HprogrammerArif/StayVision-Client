@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import Carousel from './Banner/Carousel'
-import Rooms from './Session/Rooms'
+import Rooms from './Session/Session'
 import Tutor from './Tutor/Tutor'
 
 const Home = () => {

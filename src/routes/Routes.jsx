@@ -1,15 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
-// import DashboardLayout from '../../../../b9-stayVista-part4-main/client/src/layouts/DashboardLayout'
-// import Statistics from '../../../../b9-stayVista-part4-main/client/src/pages/Dashboard/Common/Statistics'
-// import AddRoom from '../../../../b9-stayVista-part4-main/client/src/pages/Dashboard/Host/AddRoom'
-// import MyListings from '../../../../b9-stayVista-part4-main/client/src/pages/Dashboard/Host/MyListings'
-// import Profile from '../../../../b9-stayVista-part4-main/client/src/pages/Dashboard/Common/Profile'
-// import ManageUsers from '../../../../b9-stayVista-part4-main/client/src/pages/Dashboard/Admin/ManageUsers'
-// import AdminRoute from './AdminRoute'
-// import HostRoute from './HostRoute'
-// import MyBookings from '../../../../b9-stayVista-part4-main/client/src/pages/Dashboard/Guest/MyBookings'
-// import ManageBookings from '../../../../b9-stayVista-part4-main/client/src/pages/Dashboard/Host/ManageBookings'
 import Home from "../pages/Home/Home";
 import ErrorPage from "../pages/ErrorPage";
 import Login from "../pages/Login/Login";
@@ -28,6 +18,7 @@ import TutorRoute from "./TutorRoute";
 import CreateStudySession from "../pages/Dashboard/Host/CreateStudySession";
 import Profile from "../pages/Dashboard/Common/Profile";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import AllSession from "../pages/Home/Session/AllSession";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +35,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <SessionDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/all-session",
+        element: (
+          <PrivateRoute>
+            <AllSession/>
           </PrivateRoute>
         ),
       },
