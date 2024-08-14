@@ -19,6 +19,8 @@ import CreateStudySession from "../pages/Dashboard/Host/CreateStudySession";
 import Profile from "../pages/Dashboard/Common/Profile";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AllSession from "../pages/Home/Session/AllSession";
+import ViewAllSession from "../pages/Dashboard/Host/ViewAllSession";
+import UpdateSession from "../pages/Home/Session/UpdateSession";
 
 export const router = createBrowserRouter([
   {
@@ -143,6 +145,26 @@ export const router = createBrowserRouter([
             </TutorRoute>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "vieweStudySession",
+        element: (
+          <PrivateRoute>
+            <TutorRoute>
+              <ViewAllSession></ViewAllSession>
+            </TutorRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'vieweStudySession/update/:id',
+        element: (
+          <PrivateRoute>
+            <UpdateSession></UpdateSession>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/session/${params.id}`),
       },
 
       //ADMIN ROUTE
