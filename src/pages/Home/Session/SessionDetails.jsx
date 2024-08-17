@@ -7,6 +7,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import BookingModal from "../../../components/Modal/BookingModal";
 import toast from "react-hot-toast";
+import useRole from "../../../hooks/useRole";
 
 const SessionDetails = () => {
   const { id } = useParams();
@@ -17,6 +18,11 @@ const SessionDetails = () => {
   //payment and booking releted
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
+  const [role] = useRole()
+  console.log(role);
+
+  
+  
 
   const {
     data: session = {},
@@ -63,6 +69,9 @@ const SessionDetails = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (role === 'tutor' || role === 'admin') {
+      return toast.error(`Action Not Allowed!! You are a ${role}`);
+    }
     setProcessing(true);
 
     //1. create payment info obj
@@ -183,7 +192,7 @@ const SessionDetails = () => {
                 disabled={
                   new Date(registration_start_date) > new Date() ||
                   new Date(registration_end_date) < new Date() ||
-                  session?.booked === true
+                  session?.booked === true 
                 }
               >
                 {new Date(registration_start_date) <= new Date() &&
@@ -208,7 +217,7 @@ const SessionDetails = () => {
                 disabled={
                   new Date(registration_start_date) > new Date() ||
                   new Date(registration_end_date) < new Date() ||
-                  session?.booked === true
+                  session?.booked === true 
                 }
               >
                 {new Date(registration_start_date) <= new Date() &&

@@ -1,22 +1,14 @@
 import {
-  FaAd,
-  FaBook,
   FaCalendar,
-  FaEnvelope,
   FaEye,
   FaHeadSideCoughSlash,
   FaHome,
-  FaItunesNote,
   FaList,
   FaNotesMedical,
   FaRegBookmark,
-  FaSearch,
-  FaShoppingCart,
   FaStickyNote,
   FaUpload,
-  FaUser,
   FaUsers,
-  FaUtensils,
 } from "react-icons/fa";
 import { FcSettings } from "react-icons/fc";
 import { GrLogout } from "react-icons/gr";
@@ -40,7 +32,6 @@ const Dashboard = () => {
       <div className="w-64 flex justify-between flex-col min-h-screen text-gray-900 bg-slate-300 ">
         <div>
           <ul className="menu gap-6 font-medium px-4 py-6 text-md">
-           
             {role === "admin" && (
               <>
                 <li>
@@ -50,7 +41,7 @@ const Dashboard = () => {
                 </li>
 
                 <li>
-                  <NavLink to="/dashboard/vieweStudySession">
+                  <NavLink to="/dashboard/viewSession">
                     <FaList></FaList> View All Session
                     {/* ({cart?.length}) */}
                   </NavLink>
@@ -154,10 +145,8 @@ const Dashboard = () => {
 
         <div>
           <ul className="menu gap-4 font-medium px-4 py-6 text-md">
-            
             <li>
               <NavLink to="/">
-                
                 <FaHome></FaHome> Home
               </NavLink>
             </li>
@@ -171,14 +160,14 @@ const Dashboard = () => {
 
             {/* logout button */}
             <li>
-            <button
-              onClick={logOut}
-              className="flex w-full items-center px-4 py-2 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
-            >
-              <GrLogout className="w-5 h-5" />
+              <button
+                onClick={logOut}
+                className="flex w-full items-center px-4 py-2 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
+              >
+                <GrLogout className="w-5 h-5" />
 
-              <span className="mx-4 font-medium">Logout</span>
-            </button>
+                <span className="mx-4 font-medium">Logout</span>
+              </button>
             </li>
           </ul>
         </div>

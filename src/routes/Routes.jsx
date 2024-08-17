@@ -21,6 +21,7 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AllSession from "../pages/Home/Session/AllSession";
 import ViewAllSession from "../pages/Dashboard/Host/ViewAllSession";
 import UpdateSession from "../pages/Home/Session/UpdateSession";
+import ViewAllSessionByAdmin from "../pages/Dashboard/Admin/ViewAllSessionByAdmin";
 
 export const router = createBrowserRouter([
   {
@@ -44,7 +45,7 @@ export const router = createBrowserRouter([
         path: "/all-session",
         element: (
           <PrivateRoute>
-            <AllSession/>
+            <AllSession />
           </PrivateRoute>
         ),
       },
@@ -97,7 +98,9 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_API_URL}/bookings/details/${params.id}`),
+          fetch(
+            `${import.meta.env.VITE_API_URL}/bookings/details/${params.id}`
+          ),
       },
       {
         path: "createNotes",
@@ -157,7 +160,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'vieweStudySession/update/:id',
+        path: "vieweStudySession/update/:id",
         element: (
           <PrivateRoute>
             <UpdateSession></UpdateSession>
@@ -169,28 +172,17 @@ export const router = createBrowserRouter([
 
       //ADMIN ROUTE
       {
-        path: 'manage-users',
-        element:<ManageUsers></ManageUsers>
+        path: "manage-users",
+        element: <ManageUsers></ManageUsers>,
       },
-
-      // {
-      //   index: true,
-      //   element: (
-      //     <PrivateRoute>
-      //       <Statistics />
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: 'add-room',
-      //   element: (
-      //     <PrivateRoute>
-      //       <HostRoute>
-      //         <AddRoom />
-      //       </HostRoute>
-      //     </PrivateRoute>
-      //   ),
-      // },
+      {
+        path: "viewSession",
+        element: (
+          <PrivateRoute>
+            <ViewAllSessionByAdmin />
+          </PrivateRoute>
+        ),
+      },
       // {
       //   path: 'my-listings',
       //   element: (
