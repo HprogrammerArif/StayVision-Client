@@ -16,14 +16,20 @@ const SessionDetails = () => {
   // const location = useLocation();
   const [processing, setProcessing] = useState(false);
   //payment and booking releted
+  const [role] = useRole()
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
-  const [role] = useRole()
   console.log(role);
+  
+  const handleModalOpen = () => {
+    if (role === 'tutor' || role === 'admin') {
+      toast.error(`Action Not Allowed!! You are a ${role}`);
+    } else {
+      setIsOpen(true);
+    }
+  };
 
   
-  
-
   const {
     data: session = {},
     isLoading,
@@ -193,6 +199,7 @@ const SessionDetails = () => {
                   new Date(registration_start_date) > new Date() ||
                   new Date(registration_end_date) < new Date() ||
                   session?.booked === true 
+                  // ||role === 'tutor' || role === 'admin'
                 }
               >
                 {new Date(registration_start_date) <= new Date() &&
@@ -204,7 +211,7 @@ const SessionDetails = () => {
               </button>
             ) : (
               <button
-                onClick={() => setIsOpen(true)}
+              onClick={handleModalOpen}
                 //disabled={room?.booked === true}
                 className={`px-4 py-2 font-bold text-white rounded ${
                   registration_start_date &&
@@ -218,6 +225,7 @@ const SessionDetails = () => {
                   new Date(registration_start_date) > new Date() ||
                   new Date(registration_end_date) < new Date() ||
                   session?.booked === true 
+                  // ||role === 'tutor' || role === 'admin'
                 }
               >
                 {new Date(registration_start_date) <= new Date() &&

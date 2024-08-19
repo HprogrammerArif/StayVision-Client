@@ -5,10 +5,14 @@ import DatePicker from "react-datepicker";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "react-datepicker/dist/react-datepicker.css";
+import useRole from "../../../hooks/useRole";
 
 const UpdateSession = () => {
   const navigate = useNavigate();
   const job = useLoaderData();
+  const [role] = useRole()
+  console.log(role);
+  
   const {
     _id,
     title,
@@ -83,6 +87,7 @@ const UpdateSession = () => {
       toast.error(err.message);
     }
   };
+  
   return (
     <div className="flex justify-center items-center min-h-[calc(100vh-306px)]">
       <section className=" p-2 md:p-6 mx-auto bg-white rounded-md shadow-md ">
@@ -165,7 +170,7 @@ const UpdateSession = () => {
               <input
                 id="registration_fee"
                 defaultValue={registration_fee}
-                disabled
+                disabled={role != 'admin'}
                 name="registration_fee"
                 type="number"
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"

@@ -3,9 +3,13 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 // import { categories } from '../Categories/categoriesData'
-const UpdateSessionForm = ({ job, handleStatus, setIsEditModalOpen, refetch }) => {
-  const navigate = useNavigate()
-
+const UpdateSessionForm = ({
+  job,
+  handleStatus,
+  setIsEditModalOpen,
+  refetch,
+}) => {
+  const navigate = useNavigate();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +44,7 @@ const UpdateSessionForm = ({ job, handleStatus, setIsEditModalOpen, refetch }) =
     const newStudySession = {
       title,
       description,
-      registration_fee      
+      registration_fee,
     };
     console.log(newStudySession);
 
@@ -51,13 +55,13 @@ const UpdateSessionForm = ({ job, handleStatus, setIsEditModalOpen, refetch }) =
       );
       console.log(data);
       toast.success("Session Data Updated Successfully!");
-      setIsEditModalOpen(false)
-      refetch()
+      setIsEditModalOpen(false);
+      refetch();
       navigate("/dashboard/viewSession");
     } catch (err) {
       console.log(err);
       toast.error(err.message);
-      setIsEditModalOpen(false)
+      setIsEditModalOpen(false);
     }
   };
 

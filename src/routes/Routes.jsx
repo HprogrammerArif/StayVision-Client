@@ -22,6 +22,7 @@ import AllSession from "../pages/Home/Session/AllSession";
 import ViewAllSession from "../pages/Dashboard/Host/ViewAllSession";
 import UpdateSession from "../pages/Home/Session/UpdateSession";
 import ViewAllSessionByAdmin from "../pages/Dashboard/Admin/ViewAllSessionByAdmin";
+import RejectDetails from "../pages/Dashboard/Host/RejectDetails";
 
 export const router = createBrowserRouter([
   {
@@ -169,6 +170,16 @@ export const router = createBrowserRouter([
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/session/${params.id}`),
       },
+      {
+        path: "vieweStudySession/rejectDetails/:id",
+        element: (
+          <PrivateRoute>
+            <RejectDetails></RejectDetails>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/rejectDetails/${params.id}`),
+      },
 
       //ADMIN ROUTE
       {
@@ -182,6 +193,16 @@ export const router = createBrowserRouter([
             <ViewAllSessionByAdmin />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "viewSession/update/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateSession></UpdateSession>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/session/${params.id}`),
       },
       // {
       //   path: 'my-listings',

@@ -7,8 +7,10 @@ import PropTypes from "prop-types";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import useRole from "../../hooks/useRole";
 
 const CheckoutForm = ({ closeModal, bookingInfo, refetch }) => {
+  const [role] = useRole()
   const stripe = useStripe();
   const elements = useElements();
   const axiosSecure = useAxiosSecure();
@@ -39,6 +41,9 @@ const CheckoutForm = ({ closeModal, bookingInfo, refetch }) => {
   const handleSubmit = async (event) => {
     // Block native form submission.
     event.preventDefault();
+    if (role === 'tutor' || role === 'admin') {
+      return toast.error(`Action Not Allowed!! You are a ${role}`);
+    }
     setProcessing(true);
     
 

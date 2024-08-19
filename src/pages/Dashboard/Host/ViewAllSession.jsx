@@ -1,22 +1,51 @@
-import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import {
+  FaAddressBook,
+} from "react-icons/fa";
 
 const ViewAllSession = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  const [session, setSession] = useState([]);
+  //const [session, setSession] = useState([]);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    getData();
-  }, [user]);
+  // useEffect(() => {
+  //   getData();
+  // }, [user]);
 
-  const getData = async () => {
-    const { data } = await axiosSecure(`/sessions/${user?.email}`);
-    setSession(data);
-  };
+  // const getData = async () => {
+  //   const { data } = await axiosSecure(`/sessions/${user?.email}`);
+  //   setSession(data);
+  // };
+
+  const {
+    data: session = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["session"],
+    queryFn: async () => {
+      const { data } = await axiosSecure(`/sessions/${user?.email}`);
+      return data;
+    },
+  });
+  console.log(session);
+
+  // const {
+  //   data: rejectFeedback = [],
+  // } = useQuery({
+  //   queryKey: ["rejectFeedback", id],
+  //   queryFn: async () => {
+  //     const { data } = await axiosSecure.get(`/rejectFeedback/${id}`);
+  //     return data;
+  //   },
+  // });
+  // console.log(rejectFeedback);
 
   const handleDelete = async (id) => {
     try {
@@ -31,6 +60,32 @@ const ViewAllSession = () => {
       toast.error(err.message);
     }
   };
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async ({ id, status }) => {
+      const { data } = await axiosSecure.patch(`/session/${id}`, { status });
+      console.log(data);
+      return data;
+    },
+    onSuccess: () => {
+      console.log("Wow, data updated");
+      toast.success("Updated");
+      // refresh ui for latest data
+      refetch();
+
+      // Kothin
+      queryClient.invalidateQueries({ queryKey: ["session"], user });
+    },
+  });
+
+  // handleStatus
+  const handleStatus = async (id, prevStatus, status) => {
+    console.log(id, prevStatus, status);
+    if (prevStatus === status) return console.log("Sry vai.. hobena");
+    await mutateAsync({ id, status });
+  };
+
+  if (isLoading) return <LoadingSpinner />;
 
   console.log(session);
   return (
@@ -89,6 +144,12 @@ const ViewAllSession = () => {
                     >
                       Status
                     </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+                    >
+                      R.Reason
+                    </th>
 
                     <th
                       scope="col"
@@ -125,6 +186,7 @@ const ViewAllSession = () => {
                       <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
                         ${job.registration_fee}
                       </td>
+
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
                         <div className="flex items-center gap-x-2">
                           <p
@@ -143,31 +205,59 @@ const ViewAllSession = () => {
                           </p>
                         </div>
                       </td>
-                      <td className='px-4 py-4 text-sm whitespace-nowrap'>
+
+                      <td className="px-4 py-4 text-sm whitespace-nowrap">
                         {/* Complete Button */}
                         <button
-                          //disabled={bid.status !== 'In Progress'}
-                          //onClick={() => handleStatus(bid._id, 'Complete')}
-                          title='Mark Complete'
-                          className='text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none disabled:cursor-not-allowed'
+                          disabled={job.status !== "Rejected"}
+                          className={`transition-colors duration-200 focus:outline-none ${
+                            job.status !== "Rejected"
+                              ? "cursor-not-allowed text-gray-400"
+                              : "hover:text-red-500"
+                          }`}
+                        >
+                          {job.status === "Rejected" ? (
+                            <Link
+                              to={`/dashboard/vieweStudySession/rejectDetails/${job?._id}`}
+                              title="See Rejected Reason"
+                              className="text-gray-500"
+                            >
+                              <FaAddressBook />
+                            </Link>
+                          ) : (
+                            <FaAddressBook />
+                          )}
+                        </button>
+                      </td>
+
+
+                      <td className="px-4 py-4 text-sm whitespace-nowrap">
+                        {/* Complete Button */}
+                        <button
+                          disabled={job.status !== "Rejected"}
+                          onClick={() =>
+                            handleStatus(job._id, job.status, "pending")
+                          }
+                          title="Mark Complete"
+                          className="text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none disabled:cursor-not-allowed"
                         >
                           <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth='1.5'
-                            stroke='currentColor'
-                            className='w-5 h-5'
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-5 h-5"
                           >
                             <path
-                              strokeLinecap='round'
-                              strokeLinejoin='round'
-                              d='M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75'
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"
                             />
                           </svg>
                         </button>
                       </td>
-                     
+
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
                         <div className="flex items-center gap-x-6">
                           <button
