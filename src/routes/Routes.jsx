@@ -23,6 +23,8 @@ import ViewAllSession from "../pages/Dashboard/Host/ViewAllSession";
 import UpdateSession from "../pages/Home/Session/UpdateSession";
 import ViewAllSessionByAdmin from "../pages/Dashboard/Admin/ViewAllSessionByAdmin";
 import RejectDetails from "../pages/Dashboard/Host/RejectDetails";
+import UploadMaterials from "../pages/Dashboard/Host/UploadMaterials";
+import UploadMaterialForm from "../pages/Dashboard/Host/UploadMaterialForm";
 
 export const router = createBrowserRouter([
   {
@@ -160,6 +162,27 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "uploadMaterials",
+        element: (
+          <PrivateRoute>
+            <TutorRoute>
+              <UploadMaterials></UploadMaterials>
+            </TutorRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "uploadMaterials/uploadDetails/:id",
+        element: (
+          <PrivateRoute>
+            <UploadMaterialForm></UploadMaterialForm>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/uploadDetails/${params.id}`),
+      },
+      
       {
         path: "vieweStudySession/update/:id",
         element: (

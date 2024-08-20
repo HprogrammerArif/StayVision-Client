@@ -15,16 +15,14 @@ const SignUp = () => {
     updateUserProfile,
     loading,
     setLoading,
-    user
+    user,
   } = useAuth();
-
 
   useEffect(() => {
     if (user) {
-      navigate('/')
+      navigate("/");
     }
-  }, [navigate, user])
-
+  }, [navigate, user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,20 +56,8 @@ const SignUp = () => {
     }
   };
 
-  // // handle google signin
-  // const handleGoogleSignIn = async () => {
-  //   try {
-  //     await signInWithGoogle()
-
-  //     navigate('/')
-  //     toast.success('Signup Successful')
-  //   } catch (err) {
-  //     console.log(err)
-  //     toast.error(err.message)
-  //   }
-  // }
-
-  if (user || loading) return
+  
+  if (user || loading) return;
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -104,9 +90,7 @@ const SignUp = () => {
                 id="role"
                 className="select select-bordered w-full max-w-xs"
               >
-                <option value="student">
-                  Student
-                </option>
+                <option value="student">Student</option>
                 <option value="tutor">Tutor</option>
                 {/* <option value="admin">Admin</option> */}
               </select>

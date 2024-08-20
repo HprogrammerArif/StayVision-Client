@@ -4,9 +4,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
-import {
-  FaAddressBook,
-} from "react-icons/fa";
+import { FaAddressBook } from "react-icons/fa";
 
 const ViewAllSession = () => {
   const axiosSecure = useAxiosSecure();
@@ -229,7 +227,6 @@ const ViewAllSession = () => {
                           )}
                         </button>
                       </td>
-
 
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
                         {/* Complete Button */}
