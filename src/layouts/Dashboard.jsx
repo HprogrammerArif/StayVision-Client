@@ -48,8 +48,8 @@ const Dashboard = () => {
                 </li>
 
                 <li>
-                  <NavLink to="/dashboard/viewMaterials">
-                    <FaEye></FaEye> View all Materials
+                  <NavLink to="/dashboard/view-all-materials">
+                    <FaEye></FaEye> All Materials
                   </NavLink>
                 </li>
 
@@ -129,11 +129,7 @@ const Dashboard = () => {
                     <FaEye></FaEye> View all Materials
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink to="/dashboard/viewNotes">
-                    <FaStickyNote></FaStickyNote> View all Notes
-                  </NavLink>
-                </li>
+               
               </>
             )}
           </ul>

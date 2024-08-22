@@ -1,16 +1,11 @@
-import { useState } from "react";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router-dom";
 
 const CreateNotes = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useAuth();
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
   const navigate = useNavigate();
-
   const handleNotes = (e) => {
     e.preventDefault();
     const title = e.target.title.value;
@@ -37,6 +32,7 @@ const CreateNotes = () => {
             showConfirmButton: false,
             timer: 1500,
           });
+          navigate("/dashboard/manageNotes");
         }
       })
       .catch((error) => {
@@ -60,104 +56,87 @@ const CreateNotes = () => {
 
   return (
     <>
-      <button
-        className="text-center font-bold btn text-xl text-purple-800 w-full"
-        onClick={openModal}
-      >
-        Create Another Notes
-      </button>
-      <div
-        className={`fixed inset-0 z-10 overflow-y-auto ${
-          isModalOpen ? "block" : "hidden"
-        }`}
-        aria-labelledby="modal-title"
-        role="dialog"
-        aria-modal="true"
-      >
-        <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-          <span
-            className="hidden sm:inline-block sm:h-screen sm:align-middle"
-            aria-hidden="true"
-          >
-            &#8203;
-          </span>
-          <div
-            className={`relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle
-            ${
-              isModalOpen
-                ? "transition duration-300 ease-out translate-y-0 opacity-100 sm:scale-100"
-                : "transition duration-150 ease-in translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95"
-            }
-          `}
-          >
-            <h3
-              className="text-4xl text-center bg-gradient-to-r from-green-700 to-violet-800 bg-clip-text text-transparent font-bold"
-              id="modal-title"
-            >
-              Write Your Notes
-            </h3>
-            <p className="mt-2 text-sm text-center text-gray-500">
-              Feel free to keep notes here. <br />
-              Your note will be secure.
-            </p>
-            <form className="mt-4" onSubmit={handleNotes}>
-              <label htmlFor="emails-list" className="text-sm text-gray-700">
-                User Email:
-              </label>
-              <label className="block mt-3">
-                <input
-                  type="text"
-                  name="email"
-                  id="email"
-                  value={user?.email}
-                  disabled
-                  className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md "
-                />
-              </label>
+      <div className="flex justify-center items-center min-h-[calc(100vh-306px)]">
+        <section className=" p-2 md:p-6 mx-auto min-w-[500px] bg-white rounded-md shadow-md ">
+          <h2 className="text-lg font-semibold text-gray-700 capitalize ">
+            Upload Materials
+          </h2>
 
-              <label className="block mt-3">
-                Title
+          <form onSubmit={handleNotes}>
+            <div className="flex flex-col gap-2 mt-4">
+              <div>
+                <label className="text-gray-700 " htmlFor="title">
+                  Title
+                </label>
                 <input
-                  type="text"
                   name="title"
                   id="title"
-                  placeholder="title"
-                  className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+               
+                  required
+                  type="text"
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
                 />
-              </label>
-              <label className="block mt-3">
-                Description
+              </div>
+            </div>
+
+            <div className="flex justify-between gap-2 mt-4">
+              <div>
+                <label className="text-gray-700 " htmlFor="email">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  value={user?.email}
+                  disabled
+                  required
+                  type="text"
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
+                />
+              </div>
+              <div>
+                <label className="text-gray-700 " htmlFor="name">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  value={user?.displayName}
+                  disabled
+                  type="text"
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2 mt-4">
+              <div>
+                <label className="text-gray-700 " htmlFor="description">
+                  Description
+                </label>
+
                 <textarea
                   placeholder="Write in details"
                   name="description"
                   id="description"
                   cols="6"
                   rows="4"
+                  required
                   className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
                 ></textarea>
-              </label>
-
-              <div className="mt-4 sm:flex sm:items-center sm:-mx-2">
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="w-full px-4 py-2  font-medium    text-white bg-gradient-to-l from-purple-700 to-green-800 border  rounded-md sm:w-1/2 sm:mx-2 "
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className=" py-2  w-[70%] text-white bg-gradient-to-l from-green-700 to-purple-800 px-2 rounded-md"
-                >
-                  Save Note
-                </button>
               </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div>
-        your create note here looding soon..............
+            </div>
+
+            <div className="flex justify-end mt-6">
+              <button
+                type="submit"
+                className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transhtmlForm bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </section>
       </div>
     </>
   );

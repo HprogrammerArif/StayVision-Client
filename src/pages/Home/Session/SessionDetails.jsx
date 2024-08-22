@@ -16,20 +16,19 @@ const SessionDetails = () => {
   // const location = useLocation();
   const [processing, setProcessing] = useState(false);
   //payment and booking releted
-  const [role] = useRole()
+  const [role] = useRole();
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
   console.log(role);
-  
+
   const handleModalOpen = () => {
-    if (role === 'tutor' || role === 'admin') {
+    if (role === "tutor" || role === "admin") {
       toast.error(`Action Not Allowed!! You are a ${role}`);
     } else {
       setIsOpen(true);
     }
   };
 
-  
   const {
     data: session = {},
     isLoading,
@@ -42,21 +41,20 @@ const SessionDetails = () => {
     },
   });
 
-
-  //console.log(session);
-  const {
-    registration_start_date,
-    registration_end_date,
-    title,
-    description,
-    tutor_name,
-    average_rating,
-    class_start_time,
-    class_end_date,
-    session_duration,
-    registration_fee,
-    reviews,
-  } = session;
+  console.log(session);
+  // const {
+  //   registration_start_date,
+  //   registration_end_date,
+  //   title,
+  //   description,
+  //   tutor_name,
+  //   average_rating,
+  //   class_start_time,
+  //   class_end_date,
+  //   session_duration,
+  //   registration_fee,
+  //   reviews,
+  // } = session;
   // console.log(image);
 
   const closeModal = () => {
@@ -65,7 +63,7 @@ const SessionDetails = () => {
 
   const bookingInfo = {
     ...session,
-    price: registration_fee,
+    price: session?.registration_fee,
     student: {
       name: user?.displayName,
       email: user?.email,
@@ -75,7 +73,7 @@ const SessionDetails = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (role === 'tutor' || role === 'admin') {
+    if (role === "tutor" || role === "admin") {
       return toast.error(`Action Not Allowed!! You are a ${role}`);
     }
     setProcessing(true);
@@ -124,39 +122,41 @@ const SessionDetails = () => {
         <div className="flex-1  px-4 py-7 bg-white rounded-md shadow-md md:min-h-[350px]">
           <div className="flex items-center justify-between">
             <span className="text-sm font-light text-gray-800 ">
-              Registration start: {registration_start_date}
+              Registration start: {session?.registration_start_date}
             </span>
             <span className="text-sm font-light text-gray-800 ">
-              Registration end: {registration_end_date}
+              Registration end: {session?.registration_end_date}
             </span>
           </div>
           <span className="px-4 py-1 text-xs text-blue-800 uppercase bg-blue-200 rounded-full ">
             Status:{" "}
             <button>
-              {new Date(registration_end_date) > new Date()
+              {new Date(session?.registration_end_date) > new Date()
                 ? "Ongoing"
                 : "Closed"}
             </button>
           </span>
           <div>
             <h1 className="mt-2 text-3xl font-semibold text-gray-800 ">
-              {title}
+              {session?.title}
             </h1>
 
-            <p className="mt-2 text-lg text-gray-600 ">{description}...</p>
+            <p className="mt-2 text-lg text-gray-600 ">
+              {session?.description}...
+            </p>
             <p className="mt-6 text-sm font-bold text-gray-600 ">
               Tutor Details:
             </p>
             <div className="flex items-center gap-5">
               <div>
                 <p className="mt-2 text-sm  text-gray-600 ">
-                  Name: {tutor_name}.
+                  Name: {session?.tutor_name}.
                 </p>
                 <p className="mt-2 text-sm  text-gray-600 ">
                   Email: jhankar@mahbub.com
                 </p>
                 <p className="mt-2 text-sm  text-gray-600 ">
-                  Average rating: {average_rating}
+                  Average rating: {session?.average_rating}
                 </p>
               </div>
               <div className="rounded-full object-cover overflow-hidden w-14 h-14">
@@ -165,74 +165,81 @@ const SessionDetails = () => {
             </div>
             <div className="flex justify-between">
               <p className="mt-3 text-md font-bold text-gray-600 ">
-                Class start time: {class_start_time}
+                Class start time: {session?.class_start_time}
               </p>
               <p className="mt-3 text-md font-bold text-gray-600 ">
-                Class start time: {class_end_date}
+                Class start time: {session?.class_end_date}
               </p>
             </div>
             <div>
               <p>
-                Session Duration: <b>{session_duration}</b>
+                Session Duration: <b>{session?.session_duration}</b>
               </p>
               <p>
-                Student Reviews: <b>{reviews?.rating}</b>
+                Student Reviews: <b>{session?.reviews?.rating}</b>
               </p>
             </div>
             <p className="mt-6 text-lg font-bold text-gray-600 ">
-              Fee: ${registration_fee}
+              Fee: ${session?.registration_fee}
             </p>
 
-            {registration_fee <= 0 ? (
+            {session?.registration_fee <= 0 ? (
               <button
                 onClick={(e) => handleSubmit(e)}
                 //disabled={room?.booked === true}
                 className={`px-4 py-2 font-bold text-white rounded ${
-                  registration_start_date &&
-                  registration_end_date &&
-                  new Date(registration_start_date) <= new Date() &&
-                  new Date(registration_end_date) >= new Date()
+                  session?.registration_start_date &&
+                  session?.registration_end_date &&
+                  new Date(session?.registration_start_date) <= new Date() &&
+                  new Date(session?.registration_end_date) >= new Date()
                     ? "bg-blue-500 hover:bg-blue-700"
                     : "bg-gray-500 cursor-not-allowed"
                 }`}
                 disabled={
-                  new Date(registration_start_date) > new Date() ||
-                  new Date(registration_end_date) < new Date() ||
-                  session?.booked === true 
+                  new Date(session?.registration_start_date) > new Date() ||
+                  new Date(session?.registration_end_date) < new Date() 
+                  // ||
+                  // session?.booked === true
                   // ||role === 'tutor' || role === 'admin'
                 }
               >
-                {new Date(registration_start_date) <= new Date() &&
-                new Date(registration_end_date) >= new Date()
+                {/* PREVIOUS BUTTON THAT HAS SOME ISSUE IS NEED TO CHANGE */}
+
+                {/* {new Date(session?.registration_start_date) <= new Date() &&
+                new Date(session?.registration_end_date) >= new Date()
                   ? session?.booked === false || session?.booked === undefined
                     ? "Book Now"
                     : "Already Booked"
+                  : "Registration Closed"} */}
+
+                {new Date(session?.registration_start_date) <= new Date() &&
+                new Date(session?.registration_end_date) >= new Date()
+                  ? "Book Now"
                   : "Registration Closed"}
               </button>
             ) : (
               <button
-              onClick={handleModalOpen}
+                onClick={handleModalOpen}
                 //disabled={room?.booked === true}
                 className={`px-4 py-2 font-bold text-white rounded ${
-                  registration_start_date &&
-                  registration_end_date &&
-                  new Date(registration_start_date) <= new Date() &&
-                  new Date(registration_end_date) >= new Date()
+                  // session?.registration_start_date &&
+                  // session?.registration_end_date &&
+                  new Date(session?.registration_start_date) <= new Date() &&
+                  new Date(session?.registration_end_date) >= new Date()
                     ? "bg-blue-500 hover:bg-blue-700"
                     : "bg-gray-500 cursor-not-allowed"
                 }`}
                 disabled={
-                  new Date(registration_start_date) > new Date() ||
-                  new Date(registration_end_date) < new Date() ||
-                  session?.booked === true 
+                  new Date(session?.registration_start_date) > new Date() ||
+                  new Date(session?.registration_end_date) < new Date() 
+                  // ||
+                  // session?.booked === true
                   // ||role === 'tutor' || role === 'admin'
                 }
               >
-                {new Date(registration_start_date) <= new Date() &&
-                new Date(registration_end_date) >= new Date()
-                  ? session?.booked === false || session?.booked === undefined
-                    ? "Book Now"
-                    : "Already Booked"
+                {new Date(session?.registration_start_date) <= new Date() &&
+                new Date(session?.registration_end_date) >= new Date()
+                  ? "Book Now"
                   : "Registration Closed"}
               </button>
             )}
@@ -245,7 +252,7 @@ const SessionDetails = () => {
               closeModal={closeModal}
               bookingInfo={{
                 ...session,
-                price: registration_fee,
+                price: session?.registration_fee,
                 student: {
                   name: user?.displayName,
                   email: user?.email,

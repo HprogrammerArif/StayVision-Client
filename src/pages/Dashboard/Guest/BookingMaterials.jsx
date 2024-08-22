@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
-import BookingDataRow from "../../../components/Dashboard/TableRows/BookingDataRow";
+import BookingMaterialsRow from "./BookingMaterialsRow";
 
-const MyBookings = () => {
+const BookingMaterials = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
@@ -27,7 +27,7 @@ const MyBookings = () => {
   return (
     <>
       <Helmet>
-        <title>My Bookings</title>
+        <title>My Bookings Materials</title>
       </Helmet>
 
       <div className="container mx-auto px-4 sm:px-8">
@@ -77,19 +77,19 @@ const MyBookings = () => {
                       scope="col"
                       className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                     >
-                      Action
+                      R.Materials
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {/* Table Row Data */}
                   {bookings.map((booking) => (
-                    <BookingDataRow
+                    <BookingMaterialsRow
                       key={booking._id}
                       booking={booking}
                       refetch={refetch}
                       isLoading={isLoading}
-                    ></BookingDataRow>
+                    ></BookingMaterialsRow>
                   ))}
                 </tbody>
               </table>
@@ -101,4 +101,4 @@ const MyBookings = () => {
   );
 };
 
-export default MyBookings;
+export default BookingMaterials;

@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { FaEdit, FaRemoveFormat, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import useAuth from "../../../hooks/useAuth";

@@ -25,6 +25,11 @@ import ViewAllSessionByAdmin from "../pages/Dashboard/Admin/ViewAllSessionByAdmi
 import RejectDetails from "../pages/Dashboard/Host/RejectDetails";
 import UploadMaterials from "../pages/Dashboard/Host/UploadMaterials";
 import UploadMaterialForm from "../pages/Dashboard/Host/UploadMaterialForm";
+import ViewMaterials from "../pages/Dashboard/Host/ViewMaterials";
+import UpdateMaterials from "../pages/Dashboard/Host/UpdateMaterials";
+import ViewAllMaterials from "../pages/Dashboard/Admin/ViewAllMaterials";
+import BookingMaterials from "../pages/Dashboard/Guest/BookingMaterials";
+import ViewBookedMaterials from "../pages/Dashboard/Guest/ViewBookedMaterials";
 
 export const router = createBrowserRouter([
   {
@@ -94,6 +99,31 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "studyMaterials",
+        element: (
+          <PrivateRoute>
+            <BookingMaterials />
+          </PrivateRoute>
+        ),
+      },
+      // {
+      //   path: "view-booked-materials",
+      //   element: (
+      //     <PrivateRoute>
+      //       <ViewAllMaterials></ViewAllMaterials>
+      //     </PrivateRoute>
+      //   ),
+      // },
+      {
+        path: "studyMaterials/view-booked-materials/:id",
+        element: (
+          <PrivateRoute>
+            <ViewBookedMaterials />
+          </PrivateRoute>
+        ),
+      },
+
+      {
         path: "myBooking/booking-details/:id",
         element: (
           <PrivateRoute>
@@ -140,6 +170,26 @@ export const router = createBrowserRouter([
         ),
       },
 
+      {
+        path: "view-all-materials",
+        element: (
+          <PrivateRoute>
+            <ViewAllMaterials></ViewAllMaterials>
+          </PrivateRoute>
+        ),
+      },
+
+      {
+        path: "view-all-materials/updateMaterials/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateMaterials></UpdateMaterials>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/updateMaterials/${params.id}`),
+      },
+
       //TUTOR ROUTE
 
       {
@@ -173,6 +223,28 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "viewMaterials",
+        element: (
+          <PrivateRoute>
+            <TutorRoute>
+              <ViewMaterials></ViewMaterials>
+            </TutorRoute>
+          </PrivateRoute>
+        ),
+      },
+
+      {
+        path: "viewMaterials/updateMaterials/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateMaterials></UpdateMaterials>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/updateMaterials/${params.id}`),
+      },
+
+      {
         path: "uploadMaterials/uploadDetails/:id",
         element: (
           <PrivateRoute>
@@ -182,7 +254,7 @@ export const router = createBrowserRouter([
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/uploadDetails/${params.id}`),
       },
-      
+
       {
         path: "vieweStudySession/update/:id",
         element: (

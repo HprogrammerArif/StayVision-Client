@@ -11,23 +11,24 @@ const BookingDetails = () => {
   const [rating, setRating] = useState(0);
   const navigate = useNavigate();
 
-  const {
-    registration_start_date,
-    _id,
-    registration_end_date,
-    title,
-    description,
-    tutor_name,
-    average_rating,
-    class_start_time,
-    class_end_date,
-    session_duration,
-    registration_fee,
+  // const {
+  //   registration_start_date,
+  //   _id,
+  //   registration_end_date,
+  //   title,
+  //   description,
+  //   tutor_name,
+  //   average_rating,
+  //   class_start_time,
+  //   class_end_date,
+  //   session_duration,
+  //   registration_fee,
 
-    reviews,
-    email,
-  } = data;
-  console.log(data);
+  //   reviews,
+  //   tutor_email,
+
+  // } = data;
+  // console.log(data);
 
   const handleRating = (rate) => {
     setRating(rate);
@@ -41,14 +42,15 @@ const BookingDetails = () => {
     e.preventDefault();
     const comment = e.target.comment.value;
 
-    const cartItem = {
+    const studentRivew = {
+      // ...data,
       comment,
       rating,
-      reviewId: _id,
+      reviewId: data?._id,
     };
 
     axiosSecure
-      .post("/reviews", cartItem)
+      .post("/reviews", studentRivew)
       .then((res) => {
         console.log(res.data);
 
@@ -56,10 +58,11 @@ const BookingDetails = () => {
           Swal.fire({
             position: "top-end",
             icon: "success",
-            title: `${title} added review`,
+            title: `${data?.title} added review`,
             showConfirmButton: false,
             timer: 1500,
           });
+          navigate("/dashboard/myBooking")
         }
       })
       .catch((error) => {
@@ -94,37 +97,37 @@ const BookingDetails = () => {
           <div className="flex-1 rounded-md md:min-h-[350px]">
             <div className="flex items-center justify-between">
               <span className="text-sm font-light text-gray-800">
-                Registration start: {registration_start_date}
+                Registration start: {data?.registration_start_date}
               </span>
               <span className="text-sm font-light text-gray-800">
-                Registration end: {registration_end_date}
+                Registration end: {data?.registration_end_date}
               </span>
             </div>
             <span className="px-4 py-1 text-xs text-blue-800 uppercase bg-blue-200 rounded-full">
               Status:{" "}
               <button>
-                {new Date(registration_end_date) > new Date()
+                {new Date(data?.registration_end_date) > new Date()
                   ? "Ongoing"
                   : "Closed"}
               </button>
             </span>
             <div>
               <h1 className="mt-2 text-3xl font-semibold text-gray-800">
-                {title}
+                {data?.title}
               </h1>
 
-              <p className="mt-2 text-lg text-gray-600">{description}...</p>
+              <p className="mt-2 text-lg text-gray-600">{data?.description}...</p>
               <p className="mt-6 text-sm font-bold text-gray-600">
                 Tutor Details:
               </p>
               <div className="flex items-center gap-5">
                 <div>
                   <p className="mt-2 text-sm text-gray-600">
-                    Name: {tutor_name}.
+                    Name: {data?.tutor_name}.
                   </p>
-                  <p className="mt-2 text-sm text-gray-600">Email: {email}</p>
+                  <p className="mt-2 text-sm text-gray-600">Email: {data?.tutor_email}</p>
                   <p className="mt-2 text-sm text-gray-600">
-                    Average rating: {average_rating}
+                    Average rating: {data?.average_rating}
                   </p>
                 </div>
                 <div className="rounded-full object-cover overflow-hidden w-14 h-14">
@@ -133,20 +136,20 @@ const BookingDetails = () => {
               </div>
               <div className="flex justify-between">
                 <p className="mt-3 text-md font-bold text-gray-600">
-                  Class start time: {class_start_time}
+                  Class start time: {data?.class_start_time}
                 </p>
                 <p className="mt-3 text-md font-bold text-gray-600">
-                  Class end date: {class_end_date}
+                  Class end date: {data?.class_end_date}
                 </p>
               </div>
               <div>
                 <p>
-                  Session Duration: <b>{session_duration}</b>
+                  Session Duration: <b>{data?.session_duration}</b>
                 </p>
                 <div>
                   Student Reviews:
                   <ul>
-                    {reviews.map((review, index) => (
+                    {data?.reviews?.map((review, index) => (
                       <li key={index}>
                         <b>{review.student_name}</b> - {review.comment} (Rating:{" "}
                         {review.rating})
@@ -156,7 +159,7 @@ const BookingDetails = () => {
                 </div>
               </div>
               <p className="mt-6 text-lg font-bold text-gray-600">
-                Fee: ${registration_fee}
+                Fee: ${data?.registration_fee}
               </p>
             </div>
           </div>
@@ -178,7 +181,8 @@ const BookingDetails = () => {
               <input
                 id="price"
                 type="text"
-                defaultValue={registration_fee}
+                defaultValue={data?.registration_fee}
+                disabled
                 name="price"
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring"
               />
@@ -192,7 +196,7 @@ const BookingDetails = () => {
                 id="emailAddress"
                 type="email"
                 name="email"
-                defaultValue={email}
+                defaultValue={data?.tutor_email}
                 disabled
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring"
               />
@@ -209,6 +213,7 @@ const BookingDetails = () => {
               id="comment"
               name="comment"
               type="text"
+              required
               //value={comment}
               //onChange={(e) => setComment(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring"
