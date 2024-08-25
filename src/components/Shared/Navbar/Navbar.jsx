@@ -73,7 +73,7 @@ const Navbar = () => {
       <div className="navbar bg-base-100 shadow-sm ">
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <div tabIndex={0} role="button" className="btn btn-ghost mr-0 px-0 lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -103,8 +103,8 @@ const Navbar = () => {
             className="flex items-center p-2"
           >
             <div className="flex justify-center items-center">
-              <img className="w-12 mr-2" src={logo} alt="" />
-              <span className="font-black text-xl bg-gradient-to-r from-red-800 to-violet-900 bg-clip-text text-transparent mt-1">
+              <img className="w-8 lg:w-12 mr-2" src={logo} alt="" />
+              <span className="font-black text-sm lg:text-xl bg-gradient-to-r from-red-800 to-violet-900 bg-clip-text text-transparent mt-1">
                 Stay
                 <br />
                 Vision
@@ -120,10 +120,10 @@ const Navbar = () => {
             {user ? (
               <>
                 <button
-                  className="px-3 py-0 rounded-md  text-gray-100 font-normal"
+                  className="px-1 lg:px-3 py-0 rounded-md  text-gray-100 lg:font-normal"
                   onClick={handleLogOut}
                 >
-                  <Link className="bg-violet-900 py-2 px-3 rounded-md">
+                  <Link className="bg-violet-900 py-1 px-1 text-sm lg:text-lg lg:px-3 lg:py-2 rounded-md">
                     Logout
                   </Link>
                 </button>
@@ -139,7 +139,7 @@ const Navbar = () => {
                     role="button"
                     className="btn btn-ghost  btn-circle avatar"
                   >
-                    <div className="w-15 border-2 border-green-600 rounded-full">
+                    <div className=" w-10 lg:w-15 border-2 border-green-600 rounded-full">
                       <img
                         referrerPolicy="no-referrer"
                         alt="User Profile Photo"
@@ -181,17 +181,17 @@ const Navbar = () => {
               </>
             )}
 
-            <label className="swap swap-rotate ml-1 ">
+            <label className="swap swap-rotate lg:ml-1 mr-0 ">
               {/* this hidden checkbox controls the state */}
               <input
-                onChange={handleToggle}
+                onChange={handleToggle} 
                 type="checkbox"
                 className="theme-controller"
               />
 
               {/* sun icon */}
               <svg
-                className="swap-off fill-current w-9 h-9 "
+                className="swap-off fill-current w-8 lg:w-9 lg:h-9 "
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >

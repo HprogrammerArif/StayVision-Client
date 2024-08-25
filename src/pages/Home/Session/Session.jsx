@@ -33,7 +33,7 @@ const Rooms = () => {
       {allSessions && allSessions.length > 0 ? (
         <>
           <div className="pt-12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10">
-            {allSessions.slice(0, 6).map((session) => (
+            {allSessions.filter(job => job.status ==='Approved').slice(0, 6).map((session) => (
               <Card key={session._id} room={session} />
             ))}
           </div>

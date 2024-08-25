@@ -106,14 +106,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      // {
-      //   path: "view-booked-materials",
-      //   element: (
-      //     <PrivateRoute>
-      //       <ViewAllMaterials></ViewAllMaterials>
-      //     </PrivateRoute>
-      //   ),
-      // },
+
       {
         path: "studyMaterials/view-booked-materials/:id",
         element: (
@@ -299,52 +292,6 @@ export const router = createBrowserRouter([
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/session/${params.id}`),
       },
-      // {
-      //   path: 'my-listings',
-      //   element: (
-      //     <PrivateRoute>
-      //       <HostRoute>
-      //         <MyListings />
-      //       </HostRoute>
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: 'manage-users',
-      //   element: (
-      //     <PrivateRoute>
-      //       <AdminRoute>
-      //         <ManageUsers />
-      //       </AdminRoute>
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: 'my-bookings',
-      //   element: (
-      //     <PrivateRoute>
-      //       <MyBookings />
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: 'manage-bookings',
-      //   element: (
-      //     <PrivateRoute>
-      //       <HostRoute>
-      //         <ManageBookings />
-      //       </HostRoute>
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: 'profile',
-      //   element: (
-      //     <PrivateRoute>
-      //       <Profile />
-      //     </PrivateRoute>
-      //   ),
-      // },
     ],
   },
 ]);
