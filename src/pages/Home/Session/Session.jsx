@@ -37,7 +37,7 @@ const Rooms = () => {
               <Card key={session._id} room={session} />
             ))}
           </div>
-          {allSessions.length > 6 && (
+          {allSessions.filter(job => job.status ==='Approved').length > 6 && (
             <Link to="/all-session" className="flex justify-center">
               <button className="bg-gray-600  p-2 px-5 text-white">
                 Sell All Session

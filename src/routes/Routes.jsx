@@ -30,6 +30,7 @@ import UpdateMaterials from "../pages/Dashboard/Host/UpdateMaterials";
 import ViewAllMaterials from "../pages/Dashboard/Admin/ViewAllMaterials";
 import BookingMaterials from "../pages/Dashboard/Guest/BookingMaterials";
 import ViewBookedMaterials from "../pages/Dashboard/Guest/ViewBookedMaterials";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -81,19 +82,79 @@ export const router = createBrowserRouter([
         element: <Profile />,
       },
 
-      //student only routes
+      //ADMIN ROUTE ONLY
       {
         path: "adminHome",
         element: (
-          //<AdminRoute>
-          <UserHome></UserHome>
+          <AdminRoute>
+            <PrivateRoute>
+              <UserHome></UserHome>
+            </PrivateRoute>
+          </AdminRoute>
         ),
-        //</AdminRoute>
       },
+      {
+        path: "viewSession",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ViewAllSessionByAdmin />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "viewSession/update/:id",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <UpdateSession></UpdateSession>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/session/${params.id}`),
+      },
+      {
+        path: "view-all-materials",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ViewAllMaterials></ViewAllMaterials>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "view-all-materials/updateMaterials/:id",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <UpdateMaterials></UpdateMaterials>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/updateMaterials/${params.id}`),
+      },
+
+      {
+        path: "manage-users",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ManageUsers></ManageUsers>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+
+      //STUDENT ROUTE
       {
         path: "myBooking",
         element: (
           <PrivateRoute>
+            
             <MyBookings />
           </PrivateRoute>
         ),
@@ -163,28 +224,9 @@ export const router = createBrowserRouter([
         ),
       },
 
-      {
-        path: "view-all-materials",
-        element: (
-          <PrivateRoute>
-            <ViewAllMaterials></ViewAllMaterials>
-          </PrivateRoute>
-        ),
-      },
 
-      {
-        path: "view-all-materials/updateMaterials/:id",
-        element: (
-          <PrivateRoute>
-            <UpdateMaterials></UpdateMaterials>
-          </PrivateRoute>
-        ),
-        loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_API_URL}/updateMaterials/${params.id}`),
-      },
 
       //TUTOR ROUTE
-
       {
         path: "createStudySession",
         element: (
@@ -196,7 +238,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "vieweStudySession",
+        path: "viewStudySession",
         element: (
           <PrivateRoute>
             <TutorRoute>
@@ -206,6 +248,31 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "viewStudySession/update/:id",
+        element: (
+          <PrivateRoute>
+            <TutorRoute>
+              <UpdateSession></UpdateSession>
+            </TutorRoute>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/session/${params.id}`),
+      },
+      {
+        path: "viewStudySession/rejectDetails/:id",
+        element: (
+          <PrivateRoute>
+            <TutorRoute>
+              <RejectDetails></RejectDetails>
+            </TutorRoute>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/rejectDetails/${params.id}`),
+      },
+
+      {
         path: "uploadMaterials",
         element: (
           <PrivateRoute>
@@ -214,6 +281,18 @@ export const router = createBrowserRouter([
             </TutorRoute>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "uploadMaterials/uploadDetails/:id",
+        element: (
+          <PrivateRoute>
+            <TutorRoute>
+              <UploadMaterialForm></UploadMaterialForm>
+            </TutorRoute>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/uploadDetails/${params.id}`),
       },
       {
         path: "viewMaterials",
@@ -230,67 +309,13 @@ export const router = createBrowserRouter([
         path: "viewMaterials/updateMaterials/:id",
         element: (
           <PrivateRoute>
-            <UpdateMaterials></UpdateMaterials>
+            <TutorRoute>
+              <UpdateMaterials></UpdateMaterials>
+            </TutorRoute>
           </PrivateRoute>
         ),
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/updateMaterials/${params.id}`),
-      },
-
-      {
-        path: "uploadMaterials/uploadDetails/:id",
-        element: (
-          <PrivateRoute>
-            <UploadMaterialForm></UploadMaterialForm>
-          </PrivateRoute>
-        ),
-        loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_API_URL}/uploadDetails/${params.id}`),
-      },
-
-      {
-        path: "vieweStudySession/update/:id",
-        element: (
-          <PrivateRoute>
-            <UpdateSession></UpdateSession>
-          </PrivateRoute>
-        ),
-        loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_API_URL}/session/${params.id}`),
-      },
-      {
-        path: "vieweStudySession/rejectDetails/:id",
-        element: (
-          <PrivateRoute>
-            <RejectDetails></RejectDetails>
-          </PrivateRoute>
-        ),
-        loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_API_URL}/rejectDetails/${params.id}`),
-      },
-
-      //ADMIN ROUTE
-      {
-        path: "manage-users",
-        element: <ManageUsers></ManageUsers>,
-      },
-      {
-        path: "viewSession",
-        element: (
-          <PrivateRoute>
-            <ViewAllSessionByAdmin />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "viewSession/update/:id",
-        element: (
-          <PrivateRoute>
-            <UpdateSession></UpdateSession>
-          </PrivateRoute>
-        ),
-        loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_API_URL}/session/${params.id}`),
       },
     ],
   },

@@ -146,14 +146,14 @@ const ViewAllSession = () => {
                       scope="col"
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
                     >
-                      R.Reason
+                      Reject.Reason
                     </th>
 
                     <th
                       scope="col"
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
                     >
-                      Request
+                      Another Request
                     </th>
 
                     <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
@@ -216,7 +216,7 @@ const ViewAllSession = () => {
                         >
                           {job.status === "Rejected" ? (
                             <Link
-                              to={`/dashboard/vieweStudySession/rejectDetails/${job?._id}`}
+                              to={`/dashboard/viewStudySession/rejectDetails/${job?._id}`}
                               title="See Rejected Reason"
                               className="text-gray-500"
                             >

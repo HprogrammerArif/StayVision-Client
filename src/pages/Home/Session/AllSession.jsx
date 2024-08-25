@@ -8,7 +8,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AllSession = () => {
   const axiosSecure = useAxiosSecure();
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
   const [filter, setFilter] = useState("");
@@ -145,7 +145,7 @@ const AllSession = () => {
           </div>
 
           <div className="pt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10">
-            {allSessions.map((session) => (
+            {allSessions.filter(job => job.status ==='Approved').map((session) => (
               <Card key={session._id} room={session} />
             ))}
           </div>
