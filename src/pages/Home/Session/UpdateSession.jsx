@@ -81,7 +81,7 @@ const UpdateSession = () => {
       );
       console.log(data);
       toast.success("Session Data Updated Successfully!");
-      navigate("/dashboard/vieweStudySession");
+      navigate("/dashboard/viewStudySession");
     } catch (err) {
       console.log(err);
       toast.error(err.message);

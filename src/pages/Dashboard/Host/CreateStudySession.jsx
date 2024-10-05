@@ -62,7 +62,7 @@ const CreateStudySession = () => {
           // refatch the cart to update the cart items
           //refetch()
           form.reset();
-          navigate('/dashboard/vieweStudySession')
+          navigate('/dashboard/viewStudySession')
         }
       });
 
