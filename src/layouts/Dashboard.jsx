@@ -1,11 +1,13 @@
 import {
   FaCalendar,
+  FaChartLine,
   FaEye,
   FaHeadSideCoughSlash,
   FaHome,
   FaList,
   FaNotesMedical,
   FaRegBookmark,
+  FaStackExchange,
   FaStickyNote,
   FaUpload,
   FaUsers,
@@ -71,9 +73,10 @@ const Dashboard = () => {
                   <>
                     <li>
                       <NavLink end to="/dashboard">
-                        <FaHome /> Admin Home
+                      <FaChartLine /> Statistics
                       </NavLink>
                     </li>
+                 
 
                     <li>
                       <NavLink to="/dashboard/viewSession">
@@ -99,7 +102,7 @@ const Dashboard = () => {
                   <>
                     <li>
                       <NavLink end to="/dashboard">
-                        <FaHome /> User Home (Student)
+                      <FaChartLine /> Statistics
                       </NavLink>
                     </li>
 
@@ -133,7 +136,7 @@ const Dashboard = () => {
                   <>
                     <li>
                       <NavLink end to="/dashboard">
-                        <FaHome /> User Home (Tutor)
+                      <FaChartLine /> Statistics
                       </NavLink>
                     </li>
 

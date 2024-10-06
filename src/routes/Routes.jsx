@@ -31,6 +31,7 @@ import ViewAllMaterials from "../pages/Dashboard/Admin/ViewAllMaterials";
 import BookingMaterials from "../pages/Dashboard/Guest/BookingMaterials";
 import ViewBookedMaterials from "../pages/Dashboard/Guest/ViewBookedMaterials";
 import AdminRoute from "./AdminRoute";
+import Statistics from "../components/Statistics/Statistics";
 
 export const router = createBrowserRouter([
   {
@@ -73,7 +74,11 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <UserHome></UserHome>,
+        element: (
+          <PrivateRoute>
+            <Statistics></Statistics>
+          </PrivateRoute>
+        ),
       },
 
       //COMMON ROUTE
