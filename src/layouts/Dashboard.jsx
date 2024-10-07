@@ -7,7 +7,7 @@ import {
   FaList,
   FaNotesMedical,
   FaRegBookmark,
-  FaStackExchange,
+  
   FaStickyNote,
   FaUpload,
   FaUsers,
