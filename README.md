@@ -1,15 +1,12 @@
-#Wave-2
-Assignment12_category_0023
-
 WEBSITE NAME: StayVision
 
 Live URL: https://stayvision-e5db4.web.app/
 
-Admin User Name: admin@test.com
+Admin User Name (for test only): admin@test.com
 Password: 123456
 
 
-TEN NOTEABLE FEATURE:
+FEATURE:
 1. Use Authentication using Firebase for (GitHub, Google, Login, Logout, SignUp) with validation
 2. Implement Authorization Using JWT (Store token on localStorage)
 3. Added Dark and Light Them
