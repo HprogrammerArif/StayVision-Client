@@ -3,6 +3,8 @@ WEBSITE NAME: StayVision
 Live URL: https://stayvision-e5db4.web.app/
 
 Admin User Name (for test only): admin@test.com
+tutor@master.com
+student@test.com
 Password: 123456
 
 
